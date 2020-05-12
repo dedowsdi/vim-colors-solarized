@@ -376,9 +376,6 @@ endif
 " Formatting options and null values for passthrough effect "{{{
 " ---------------------------------------------------------------------
     let s:none            = 'none'
-    let s:none            = 'none'
-    let s:t_none          = 'none'
-    let s:n               = 'none'
     let s:c               = ',undercurl'
     let s:r               = ',reverse'
     let s:s               = ',standout'
@@ -411,21 +408,6 @@ if &background ==# 'light'
     if (s:back !=# 'none')
         let s:back    = s:base03
     endif
-endif
-"}}}
-" Optional contrast schemes "{{{
-" ---------------------------------------------------------------------
-if g:solarized_contrast ==# 'high'
-    let s:base01      = s:base00
-    let s:base00      = s:base0
-    let s:base0       = s:base1
-    let s:base1       = s:base2
-    let s:base2       = s:base3
-    let s:back        = s:back
-endif
-if g:solarized_contrast ==# 'low'
-    let s:back        = s:base02
-    let s:ou          = ',underline'
 endif
 "}}}
 " Overrides dependent on user specified values and environment "{{{
@@ -572,7 +554,9 @@ exe 'hi! Constant'       .s:fmt_none   .s:fg_cyan   .s:bg_none
 "        Boolean         a boolean constant: TRUE, false
 "        Float           a floating point constant: 2.3e10
 
-exe 'hi! Identifier'     .s:fmt_none   .s:fg_blue   .s:bg_none
+hi link Identifier Normal
+
+exe 'hi! Function'     .s:fmt_none   .s:fg_blue   .s:bg_none
 "       *Identifier      any variable name
 "        Function        function name (also: methods for classes)
 "
@@ -622,16 +606,8 @@ exe 'hi! Todo'           .s:fmt_bold   .s:fg_magenta.s:bg_none
 "}}}
 " Extended highlighting "{{{
 " ---------------------------------------------------------------------
-if      (g:solarized_visibility==#'high')
-    exe 'hi! SpecialKey' .s:fmt_none   .s:bg_red    .s:fg_none
-    exe 'hi! NonText'    .s:fmt_bold   .s:fg_red    .s:bg_none
-elseif  (g:solarized_visibility==#'low')
-    exe 'hi! SpecialKey' .s:fmt_bold   .s:fg_base02 .s:bg_none
-    exe 'hi! NonText'    .s:fmt_bold   .s:fg_base02 .s:bg_none
-else
-    exe 'hi! SpecialKey' .s:fmt_bold   .s:fg_base00 .s:bg_base02
-    exe 'hi! NonText'    .s:fmt_bold   .s:fg_base00 .s:bg_none
-endif
+exe 'hi! SpecialKey' .s:fmt_bold   .s:fg_base00 .s:bg_base02
+exe 'hi! NonText'    .s:fmt_bold   .s:fg_base00 .s:bg_none
 exe 'hi! StatusLine'     .s:fmt_none   .s:bg_base00  .s:fg_base03 .s:fmt_bb
 exe 'hi! StatusLineNC'   .s:fmt_none   .s:bg_base02 . s:fg_base0 .s:fmt_bb
 hi! link StatusLineTerm   StatusLine
@@ -657,28 +633,16 @@ exe 'hi! WarningMsg'     .s:fmt_bold   .s:fg_red    .s:bg_none
 exe 'hi! WildMenu'       .s:fmt_none   .s:bg_base2  .s:fg_base02 .s:fmt_bb
 exe 'hi! Folded'         .s:fmt_undb   .s:fg_base0  .s:bg_base02  .s:sp_base03
 exe 'hi! FoldColumn'     .s:fmt_none   .s:fg_base0  .s:bg_base02
-if      (g:solarized_diffmode==#'high')
-exe 'hi! DiffAdd'        .s:fmt_none   .s:bg_green  .s:fg_none
-exe 'hi! DiffChange'     .s:fmt_none   .s:bg_yellow .s:fg_none
-exe 'hi! DiffDelete'     .s:fmt_none   .s:bg_red    .s:fg_none
-exe 'hi! DiffText'       .s:fmt_none   .s:bg_blue   .s:fg_none
-elseif  (g:solarized_diffmode==#'low')
-exe 'hi! DiffAdd'        .s:fmt_undr   .s:fg_green  .s:bg_none   .s:sp_green
-exe 'hi! DiffChange'     .s:fmt_undr   .s:fg_yellow .s:bg_none   .s:sp_yellow
-exe 'hi! DiffDelete'     .s:fmt_bold   .s:fg_red    .s:bg_none
-exe 'hi! DiffText'       .s:fmt_undr   .s:fg_blue   .s:bg_none   .s:sp_blue
-else " normal
-    if has('gui_running')
-exe 'hi! DiffAdd'        .s:fmt_bold   .s:fg_green  .s:bg_base02 .s:sp_green
-exe 'hi! DiffChange'     .s:fmt_bold   .s:fg_yellow .s:bg_base02 .s:sp_yellow
-exe 'hi! DiffDelete'     .s:fmt_bold   .s:fg_red    .s:bg_base02
-exe 'hi! DiffText'       .s:fmt_bold   .s:fg_blue   .s:bg_base02 .s:sp_blue
-    else
-exe 'hi! DiffAdd'        .s:fmt_none   .s:fg_green  .s:bg_base02 .s:sp_green
-exe 'hi! DiffChange'     .s:fmt_none   .s:fg_base0 .s:bg_base02 .s:sp_yellow
-exe 'hi! DiffDelete'     .s:fmt_none   .s:fg_red    .s:bg_base02
-exe 'hi! DiffText'       .s:fmt_none   .s:fg_magenta   .s:bg_base02 .s:sp_blue
-    endif
+if has('gui_running')
+    exe 'hi! DiffAdd'        .s:fmt_bold   .s:fg_green  .s:bg_base02 .s:sp_green
+    exe 'hi! DiffChange'     .s:fmt_bold   .s:fg_yellow .s:bg_base02 .s:sp_yellow
+    exe 'hi! DiffDelete'     .s:fmt_bold   .s:fg_red    .s:bg_base02
+    exe 'hi! DiffText'       .s:fmt_bold   .s:fg_blue   .s:bg_base02 .s:sp_blue
+else
+    exe 'hi! DiffAdd'        .s:fmt_none   .s:fg_green  .s:bg_base02 .s:sp_green
+    exe 'hi! DiffChange'     .s:fmt_none   .s:fg_base0 .s:bg_base02 .s:sp_yellow
+    exe 'hi! DiffDelete'     .s:fmt_none   .s:fg_red    .s:bg_base02
+    exe 'hi! DiffText'       .s:fmt_none   .s:fg_magenta   .s:bg_base02 .s:sp_blue
 endif
 exe 'hi! SignColumn'     .s:fmt_none   .s:fg_base0
 exe 'hi! Conceal'        .s:fmt_none   .s:fg_blue   .s:bg_none
@@ -686,10 +650,11 @@ exe 'hi! SpellBad'       .s:fg_red . s:bg_base02     .s:sp_red
 exe 'hi! SpellCap'       .s:fg_base0  .s:bg_base02
 exe 'hi! SpellRare'      .s:fg_green  .s:bg_none
 exe 'hi! SpellLocal'     .s:fg_none  .s:bg_none
-exe 'hi! Pmenu'          .s:fmt_none   .s:bg_base0  .s:fg_base02  .s:fmt_bb
-exe 'hi! PmenuSel'       .s:fmt_none   .s:bg_base01 .s:fg_base2   .s:fmt_bb
-exe 'hi! PmenuSbar'      .s:fmt_none   .s:bg_base2  .s:fg_base0   .s:fmt_bb
-exe 'hi! PmenuThumb'     .s:fmt_none   .s:bg_base0  .s:fg_base03  .s:fmt_bb
+
+exe 'hi! Pmenu'          .s:fmt_none   .s:bg_base02 .s:fg_base0
+exe 'hi! PmenuSel'       .s:fmt_none   .s:bg_base01 .s:fg_base02  . s:fmt_bold
+exe 'hi! PmenuSbar'      .s:fmt_none   .s:bg_base03 .s:fg_none
+exe 'hi! PmenuThumb'     .s:fmt_none   .s:bg_base0  .s:fg_base03
 exe 'hi! TabLine'        .s:fmt_undr   .s:fg_base0  .s:bg_base02  .s:sp_base0
 exe 'hi! TabLineFill'    .s:fmt_undr   .s:fg_base0  .s:bg_base02  .s:sp_base0
 exe 'hi! TabLineSel'     .s:fmt_undr   .s:bg_base01 .s:fg_base2   .s:sp_base0  .s:fmt_bbu
@@ -1057,76 +1022,6 @@ endfunction
 if !exists(':SolarizedOptions')
     command SolarizedOptions :call s:SolarizedOptions()
 endif
-
-function! SolarizedMenu()
-    if exists('g:loaded_solarized_menu')
-        try
-            silent! aunmenu Solarized
-        endtry
-    endif
-    let g:loaded_solarized_menu = 1
-
-    if g:colors_name ==# 'solarized' && g:solarized_menu != 0
-
-        amenu &Solarized.&Contrast.&Low\ Contrast        :let g:solarized_contrast='low'       \| colorscheme solarized<CR>
-        amenu &Solarized.&Contrast.&Normal\ Contrast     :let g:solarized_contrast='normal'    \| colorscheme solarized<CR>
-        amenu &Solarized.&Contrast.&High\ Contrast       :let g:solarized_contrast='high'      \| colorscheme solarized<CR>
-        an    &Solarized.&Contrast.-sep-                 <Nop>
-        amenu &Solarized.&Contrast.&Help:\ Contrast      :help 'solarized_contrast'<CR>
-
-        amenu &Solarized.&Visibility.&Low\ Visibility    :let g:solarized_visibility='low'     \| colorscheme solarized<CR>
-        amenu &Solarized.&Visibility.&Normal\ Visibility :let g:solarized_visibility='normal'  \| colorscheme solarized<CR>
-        amenu &Solarized.&Visibility.&High\ Visibility   :let g:solarized_visibility='high'    \| colorscheme solarized<CR>
-        an    &Solarized.&Visibility.-sep-                 <Nop>
-        amenu &Solarized.&Visibility.&Help:\ Visibility    :help 'solarized_visibility'<CR>
-
-        amenu &Solarized.&Background.&Toggle\ Background :ToggleBG<CR>
-        amenu &Solarized.&Background.&Dark\ Background   :set background=dark  \| colorscheme solarized<CR>
-        amenu &Solarized.&Background.&Light\ Background  :set background=light \| colorscheme solarized<CR>
-        an    &Solarized.&Background.-sep-               <Nop>
-        amenu &Solarized.&Background.&Help:\ ToggleBG     :help togglebg<CR>
-
-        if g:solarized_bold==0 | let l:boldswitch='On' | else | let l:boldswitch='Off' | endif
-        exe "amenu &Solarized.&Styling.&Turn\\ Bold\\ ".l:boldswitch." :let g:solarized_bold=(abs(g:solarized_bold-1)) \\| colorscheme solarized<CR>"
-        if g:solarized_italic==0 | let l:italicswitch='On' | else | let l:italicswitch='Off' | endif
-        exe "amenu &Solarized.&Styling.&Turn\\ Italic\\ ".l:italicswitch." :let g:solarized_italic=(abs(g:solarized_italic-1)) \\| colorscheme solarized<CR>"
-        if g:solarized_underline==0 | let l:underlineswitch='On' | else | let l:underlineswitch='Off' | endif
-        exe "amenu &Solarized.&Styling.&Turn\\ Underline\\ ".l:underlineswitch." :let g:solarized_underline=(abs(g:solarized_underline-1)) \\| colorscheme solarized<CR>"
-
-        amenu &Solarized.&Diff\ Mode.&Low\ Diff\ Mode    :let g:solarized_diffmode='low'     \| colorscheme solarized<CR>
-        amenu &Solarized.&Diff\ Mode.&Normal\ Diff\ Mode :let g:solarized_diffmode='normal'  \| colorscheme solarized<CR>
-        amenu &Solarized.&Diff\ Mode.&High\ Diff\ Mode   :let g:solarized_diffmode='high'    \| colorscheme solarized<CR>
-
-        if g:solarized_hitrail==0 | let l:hitrailswitch='On' | else | let l:hitrailswitch='Off' | endif
-        exe "amenu &Solarized.&Experimental.&Turn\\ Highlight\\ Trailing\\ Spaces\\ ".l:hitrailswitch." :let g:solarized_hitrail=(abs(g:solarized_hitrail-1)) \\| colorscheme solarized<CR>"
-        an    &Solarized.&Experimental.-sep-               <Nop>
-        amenu &Solarized.&Experimental.&Help:\ HiTrail    :help 'solarized_hitrail'<CR>
-
-        an    &Solarized.-sep1-                          <Nop>
-
-        amenu &Solarized.&Autogenerate\ options          :SolarizedOptions<CR>
-
-        an    &Solarized.-sep2-                          <Nop>
-
-        amenu &Solarized.&Help.&Solarized\ Help          :help solarized<CR>
-        amenu &Solarized.&Help.&Toggle\ Background\ Help :help togglebg<CR>
-        amenu &Solarized.&Help.&Removing\ This\ Menu     :help solarized-menu<CR>
-
-        an 9999.77 &Help.&Solarized\ Colorscheme         :help solarized<CR>
-        an 9999.78 &Help.&Toggle\ Background             :help togglebg<CR>
-        an 9999.79 &Help.-sep3-                          <Nop>
-
-    endif
-endfunction
-
-augroup ag_solarized
-  autocmd ColorScheme solarized
-        \   if g:colors_name !=# 'solarized'
-        \ |   silent! aunmenu Solarized
-        \ | else
-        \ |   call SolarizedMenu()
-        \ | endif
-augroup end
 
 "}}}
 " License "{{{
