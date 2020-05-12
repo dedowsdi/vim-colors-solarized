@@ -632,9 +632,9 @@ exe "hi! StatusLine"     .s:fmt_none   .s:bg_base1  .s:fg_base02 .s:fmt_bb
 exe "hi! StatusLineNC"   .s:fmt_none   .s:bg_base00 .s:fg_base02 .s:fmt_bb
 exe "hi! Visual"         .s:fmt_none   .s:bg_base01 .s:fg_base03 .s:fmt_bb
 exe "hi! Directory"      .s:fmt_none   .s:fg_blue   .s:bg_none
-exe "hi! ErrorMsg"       .s:fmt_none   .s:bg_red    .s:fg_none
+exe "hi! ErrorMsg"       .s:fmt_none   .s:bg_red    .s:fg_base03
 exe "hi! IncSearch"      .s:fmt_none   .s:bg_yellow .s:fg_base03
-exe "hi! Search"         .s:fmt_none   .s:bg_yellow .s:fg_none
+exe "hi! Search"         .s:fmt_none   .s:bg_yellow .s:fg_base03
 exe "hi! MoreMsg"        .s:fmt_none   .s:fg_blue   .s:bg_none
 exe "hi! ModeMsg"        .s:fmt_none   .s:fg_blue   .s:bg_none
 exe "hi! LineNr"         .s:fmt_none   .s:fg_base01 .s:bg_base02
@@ -668,9 +668,9 @@ exe "hi! DiffDelete"     .s:fmt_bold   .s:fg_red    .s:bg_base02
 exe "hi! DiffText"       .s:fmt_bold   .s:fg_blue   .s:bg_base02 .s:sp_blue
     else
 exe "hi! DiffAdd"        .s:fmt_none   .s:fg_green  .s:bg_base02 .s:sp_green
-exe "hi! DiffChange"     .s:fmt_none   .s:fg_yellow .s:bg_base02 .s:sp_yellow
+exe "hi! DiffChange"     .s:fmt_none   .s:fg_base0 .s:bg_base02 .s:sp_yellow
 exe "hi! DiffDelete"     .s:fmt_none   .s:fg_red    .s:bg_base02
-exe "hi! DiffText"       .s:fmt_none   .s:fg_blue   .s:bg_base02 .s:sp_blue
+exe "hi! DiffText"       .s:fmt_none   .s:fg_magenta   .s:bg_base02 .s:sp_blue
     endif
 endif
 exe "hi! SignColumn"     .s:fmt_none   .s:fg_base0
