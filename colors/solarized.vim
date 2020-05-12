@@ -134,6 +134,23 @@
 " Allow or disallow certain features based on current terminal emulator or 
 " environment.
 
+" ---------------------------------------------------------------------
+" ABOUT REVERSE, standout
+" ---------------------------------------------------------------------
+" linux-16color doesn't have full support for reverse and standout, these
+" commands are equal:
+"
+" tput setaf 1 ; tput setab 10 ; tput rev ; echo 123
+" tput setaf 2 ; tput setab 9 ; echo 123
+"
+" 2 = 10%2, 9 = 1 + 8
+"
+" bold(1) and blink(5) is used to make fg or bg color brighter(+8), rev works on
+" color%8 , bold or blink stays unchanged.
+"
+" You can only use rev if both fg and bg is greater or less equal to 7. The same
+" rule applies to standout, it's better to stay away from them.
+
 " Terminals that support italics
 let s:terms_italic=[
             \"rxvt",
@@ -474,6 +491,7 @@ exe "let s:fg_cyan      = ' ".s:vmode."fg=".s:cyan   ."'"
 
 exe "let s:fmt_none     = ' ".s:vmode."=NONE".          " term=NONE".    "'"
 exe "let s:fmt_bold     = ' ".s:vmode."=NONE".s:b.      " term=NONE".s:b."'"
+exe "let s:fmt_bb       = ' ".s:vmode."=NONE".s:bb.     " term=NONE".s:bb."'"
 exe "let s:fmt_bldi     = ' ".s:vmode."=NONE".s:b.      " term=NONE".s:b."'"
 exe "let s:fmt_undr     = ' ".s:vmode."=NONE".s:u.      " term=NONE".s:u."'"
 exe "let s:fmt_undb     = ' ".s:vmode."=NONE".s:u.s:b.  " term=NONE".s:u.s:b."'"
@@ -481,14 +499,15 @@ exe "let s:fmt_undi     = ' ".s:vmode."=NONE".s:u.      " term=NONE".s:u."'"
 exe "let s:fmt_uopt     = ' ".s:vmode."=NONE".s:ou.     " term=NONE".s:ou."'"
 exe "let s:fmt_curl     = ' ".s:vmode."=NONE".s:c.      " term=NONE".s:c."'"
 exe "let s:fmt_ital     = ' ".s:vmode."=NONE".s:i.      " term=NONE".s:i."'"
-exe "let s:fmt_stnd     = ' ".s:vmode."=NONE".s:s.      " term=NONE".s:s."'"
-exe "let s:fmt_revr     = ' ".s:vmode."=NONE".s:r.      " term=NONE".s:r."'"
-exe "let s:fmt_revb     = ' ".s:vmode."=NONE".s:r.s:b.  " term=NONE".s:r.s:b."'"
+" exe "let s:fmt_stnd     = ' ".s:vmode."=NONE".s:s.      " term=NONE".s:s."'"
+" exe "let s:fmt_revr     = ' ".s:vmode."=NONE".s:r.      " term=NONE".s:r."'"
+" exe "let s:fmt_revb     = ' ".s:vmode."=NONE".s:r.s:b.  " term=NONE".s:r.s:b."'"
 " revbb (reverse bold for bright colors) is only set to actual bold in low 
 " color terminals (t_co=8, such as OS X Terminal.app) and should only be used 
 " with colors 8-15.
-exe "let s:fmt_revbb    = ' ".s:vmode."=NONE".s:r.s:bb.   " term=NONE".s:r.s:bb."'"
-exe "let s:fmt_revbbu   = ' ".s:vmode."=NONE".s:r.s:bb.s:u." term=NONE".s:r.s:bb.s:u."'"
+" exe "let s:fmt_revbb    = ' ".s:vmode."=NONE".s:r.s:bb.   " term=NONE".s:r.s:bb."'"
+" exe "let s:fmt_revbbu   = ' ".s:vmode."=NONE".s:r.s:bb.s:u." term=NONE".s:r.s:bb.s:u."'"
+exe "let s:fmt_bbu      = ' ".s:vmode."=NONE".s:bb.s:u." term=NONE".s:bb.s:u."'"
 
 if has("gui_running")
     exe "let s:sp_none      = ' guisp=".s:none   ."'"
@@ -600,7 +619,7 @@ exe "hi! Todo"           .s:fmt_bold   .s:fg_magenta.s:bg_none
 " Extended highlighting "{{{
 " ---------------------------------------------------------------------
 if      (g:solarized_visibility=="high")
-    exe "hi! SpecialKey" .s:fmt_revr   .s:fg_red    .s:bg_none
+    exe "hi! SpecialKey" .s:fmt_none   .s:bg_red    .s:fg_none
     exe "hi! NonText"    .s:fmt_bold   .s:fg_red    .s:bg_none
 elseif  (g:solarized_visibility=="low")
     exe "hi! SpecialKey" .s:fmt_bold   .s:fg_base02 .s:bg_none
@@ -609,13 +628,13 @@ else
     exe "hi! SpecialKey" .s:fmt_bold   .s:fg_base00 .s:bg_base02
     exe "hi! NonText"    .s:fmt_bold   .s:fg_base00 .s:bg_none
 endif
-exe "hi! StatusLine"     .s:fmt_none   .s:fg_base1  .s:bg_base02 .s:fmt_revbb
-exe "hi! StatusLineNC"   .s:fmt_none   .s:fg_base00 .s:bg_base02 .s:fmt_revbb
-exe "hi! Visual"         .s:fmt_none   .s:fg_base01 .s:bg_base03 .s:fmt_revbb
+exe "hi! StatusLine"     .s:fmt_none   .s:bg_base1  .s:fg_base02 .s:fmt_bb
+exe "hi! StatusLineNC"   .s:fmt_none   .s:bg_base00 .s:fg_base02 .s:fmt_bb
+exe "hi! Visual"         .s:fmt_none   .s:bg_base01 .s:fg_base03 .s:fmt_bb
 exe "hi! Directory"      .s:fmt_none   .s:fg_blue   .s:bg_none
-exe "hi! ErrorMsg"       .s:fmt_revr   .s:fg_red    .s:bg_none
-exe "hi! IncSearch"      .s:fmt_stnd   .s:fg_orange .s:bg_none
-exe "hi! Search"         .s:fmt_revr   .s:fg_yellow .s:bg_none
+exe "hi! ErrorMsg"       .s:fmt_none   .s:bg_red    .s:fg_none
+exe "hi! IncSearch"      .s:fmt_none   .s:bg_yellow .s:fg_base03
+exe "hi! Search"         .s:fmt_none   .s:bg_yellow .s:fg_none
 exe "hi! MoreMsg"        .s:fmt_none   .s:fg_blue   .s:bg_none
 exe "hi! ModeMsg"        .s:fmt_none   .s:fg_blue   .s:bg_none
 exe "hi! LineNr"         .s:fmt_none   .s:fg_base01 .s:bg_base02
@@ -623,19 +642,19 @@ exe "hi! Question"       .s:fmt_bold   .s:fg_cyan   .s:bg_none
 if ( has("gui_running") || &t_Co > 8 )
     exe "hi! VertSplit"  .s:fmt_none   .s:fg_base00 .s:bg_base00
 else
-    exe "hi! VertSplit"  .s:fmt_revbb  .s:fg_base00 .s:bg_base02
+    exe "hi! VertSplit"  .s:fmt_bb  .s:bg_base00 .s:fg_base02
 endif
 exe "hi! Title"          .s:fmt_bold   .s:fg_orange .s:bg_none
-exe "hi! VisualNOS"      .s:fmt_stnd   .s:fg_none   .s:bg_base02 .s:fmt_revbb
+exe "hi! VisualNOS"      .s:fmt_none   .s:bg_base02   .s:fg_base03 .s:fmt_bb
 exe "hi! WarningMsg"     .s:fmt_bold   .s:fg_red    .s:bg_none
-exe "hi! WildMenu"       .s:fmt_none   .s:fg_base2  .s:bg_base02 .s:fmt_revbb
+exe "hi! WildMenu"       .s:fmt_none   .s:bg_base2  .s:fg_base02 .s:fmt_bb
 exe "hi! Folded"         .s:fmt_undb   .s:fg_base0  .s:bg_base02  .s:sp_base03
 exe "hi! FoldColumn"     .s:fmt_none   .s:fg_base0  .s:bg_base02
 if      (g:solarized_diffmode=="high")
-exe "hi! DiffAdd"        .s:fmt_revr   .s:fg_green  .s:bg_none
-exe "hi! DiffChange"     .s:fmt_revr   .s:fg_yellow .s:bg_none
-exe "hi! DiffDelete"     .s:fmt_revr   .s:fg_red    .s:bg_none
-exe "hi! DiffText"       .s:fmt_revr   .s:fg_blue   .s:bg_none
+exe "hi! DiffAdd"        .s:fmt_none   .s:bg_green  .s:fg_none
+exe "hi! DiffChange"     .s:fmt_none   .s:bg_yellow .s:fg_none
+exe "hi! DiffDelete"     .s:fmt_none   .s:bg_red    .s:fg_none
+exe "hi! DiffText"       .s:fmt_none   .s:bg_blue   .s:fg_none
 elseif  (g:solarized_diffmode=="low")
 exe "hi! DiffAdd"        .s:fmt_undr   .s:fg_green  .s:bg_none   .s:sp_green
 exe "hi! DiffChange"     .s:fmt_undr   .s:fg_yellow .s:bg_none   .s:sp_yellow
@@ -660,13 +679,13 @@ exe "hi! SpellBad"       .s:fmt_curl   .s:fg_none   .s:bg_none    .s:sp_red
 exe "hi! SpellCap"       .s:fmt_curl   .s:fg_none   .s:bg_none    .s:sp_violet
 exe "hi! SpellRare"      .s:fmt_curl   .s:fg_none   .s:bg_none    .s:sp_cyan
 exe "hi! SpellLocal"     .s:fmt_curl   .s:fg_none   .s:bg_none    .s:sp_yellow
-exe "hi! Pmenu"          .s:fmt_none   .s:fg_base0  .s:bg_base02  .s:fmt_revbb
-exe "hi! PmenuSel"       .s:fmt_none   .s:fg_base01 .s:bg_base2   .s:fmt_revbb
-exe "hi! PmenuSbar"      .s:fmt_none   .s:fg_base2  .s:bg_base0   .s:fmt_revbb
-exe "hi! PmenuThumb"     .s:fmt_none   .s:fg_base0  .s:bg_base03  .s:fmt_revbb
+exe "hi! Pmenu"          .s:fmt_none   .s:bg_base0  .s:fg_base02  .s:fmt_bb
+exe "hi! PmenuSel"       .s:fmt_none   .s:bg_base01 .s:fg_base2   .s:fmt_bb
+exe "hi! PmenuSbar"      .s:fmt_none   .s:bg_base2  .s:fg_base0   .s:fmt_bb
+exe "hi! PmenuThumb"     .s:fmt_none   .s:bg_base0  .s:fg_base03  .s:fmt_bb
 exe "hi! TabLine"        .s:fmt_undr   .s:fg_base0  .s:bg_base02  .s:sp_base0
 exe "hi! TabLineFill"    .s:fmt_undr   .s:fg_base0  .s:bg_base02  .s:sp_base0
-exe "hi! TabLineSel"     .s:fmt_undr   .s:fg_base01 .s:bg_base2   .s:sp_base0  .s:fmt_revbbu
+exe "hi! TabLineSel"     .s:fmt_undr   .s:bg_base01 .s:fg_base2   .s:sp_base0  .s:fmt_bbu
 exe "hi! CursorColumn"   .s:fmt_none   .s:fg_none   .s:bg_base02
 exe "hi! CursorLine"     .s:fmt_uopt   .s:fg_none   .s:bg_base02  .s:sp_base1
 exe "hi! ColorColumn"    .s:fmt_none   .s:fg_none   .s:bg_base02
@@ -873,15 +892,16 @@ exe "hi! pandocListReference"            .s:fg_magenta.s:bg_none   .s:fmt_undr
 " Definitions
 " ---------------------------------------------------------------------
 let s:fg_pdef = s:fg_violet
+let s:bg_pdef = s:bg_violet
 exe "hi! pandocDefinitionBlock"              .s:fg_pdef  .s:bg_none  .s:fmt_none
-exe "hi! pandocDefinitionTerm"               .s:fg_pdef  .s:bg_none  .s:fmt_stnd
+exe "hi! pandocDefinitionTerm"               .s:bg_pdef  .s:bg_none  .s:fmt_none
 exe "hi! pandocDefinitionIndctr"             .s:fg_pdef  .s:bg_none  .s:fmt_bold
 exe "hi! pandocEmphasisDefinition"           .s:fg_pdef  .s:bg_none  .s:fmt_ital
 exe "hi! pandocEmphasisNestedDefinition"     .s:fg_pdef  .s:bg_none  .s:fmt_bldi
 exe "hi! pandocStrongEmphasisDefinition"     .s:fg_pdef  .s:bg_none  .s:fmt_bold
 exe "hi! pandocStrongEmphasisNestedDefinition"   .s:fg_pdef.s:bg_none.s:fmt_bldi
 exe "hi! pandocStrongEmphasisEmphasisDefinition" .s:fg_pdef.s:bg_none.s:fmt_bldi
-exe "hi! pandocStrikeoutDefinition"          .s:fg_pdef  .s:bg_none  .s:fmt_revr
+exe "hi! pandocStrikeoutDefinition"          .s:bg_pdef  .s:fg_none  .s:fmt_none
 exe "hi! pandocVerbatimInlineDefinition"     .s:fg_pdef  .s:bg_none  .s:fmt_none
 exe "hi! pandocSuperscriptDefinition"        .s:fg_pdef  .s:bg_none  .s:fmt_none
 exe "hi! pandocSubscriptDefinition"          .s:fg_pdef  .s:bg_none  .s:fmt_none
@@ -889,6 +909,7 @@ exe "hi! pandocSubscriptDefinition"          .s:fg_pdef  .s:bg_none  .s:fmt_none
 " Tables
 " ---------------------------------------------------------------------
 let s:fg_ptable = s:fg_blue
+let s:bg_ptable = s:bg_blue
 exe "hi! pandocTable"                        .s:fg_ptable.s:bg_none  .s:fmt_none
 exe "hi! pandocTableStructure"               .s:fg_ptable.s:bg_none  .s:fmt_none
 hi! link pandocTableStructureTop             pandocTableStructre
@@ -900,7 +921,7 @@ exe "hi! pandocEmphasisNestedTable"          .s:fg_ptable.s:bg_none  .s:fmt_bldi
 exe "hi! pandocStrongEmphasisTable"          .s:fg_ptable.s:bg_none  .s:fmt_bold
 exe "hi! pandocStrongEmphasisNestedTable"    .s:fg_ptable.s:bg_none  .s:fmt_bldi
 exe "hi! pandocStrongEmphasisEmphasisTable"  .s:fg_ptable.s:bg_none  .s:fmt_bldi
-exe "hi! pandocStrikeoutTable"               .s:fg_ptable.s:bg_none  .s:fmt_revr
+exe "hi! pandocStrikeoutTable"               .s:bg_ptable.s:fg_none  .s:fmt_none
 exe "hi! pandocVerbatimInlineTable"          .s:fg_ptable.s:bg_none  .s:fmt_none
 exe "hi! pandocSuperscriptTable"             .s:fg_ptable.s:bg_none  .s:fmt_none
 exe "hi! pandocSubscriptTable"               .s:fg_ptable.s:bg_none  .s:fmt_none
@@ -908,6 +929,7 @@ exe "hi! pandocSubscriptTable"               .s:fg_ptable.s:bg_none  .s:fmt_none
 " Headings
 " ---------------------------------------------------------------------
 let s:fg_phead = s:fg_orange
+let s:bg_phead = s:bg_orange
 exe "hi! pandocHeading"                      .s:fg_phead .s:bg_none.s:fmt_bold
 exe "hi! pandocHeadingMarker"                .s:fg_yellow.s:bg_none.s:fmt_bold
 exe "hi! pandocEmphasisHeading"              .s:fg_phead .s:bg_none.s:fmt_bldi
@@ -915,7 +937,7 @@ exe "hi! pandocEmphasisNestedHeading"        .s:fg_phead .s:bg_none.s:fmt_bldi
 exe "hi! pandocStrongEmphasisHeading"        .s:fg_phead .s:bg_none.s:fmt_bold
 exe "hi! pandocStrongEmphasisNestedHeading"  .s:fg_phead .s:bg_none.s:fmt_bldi
 exe "hi! pandocStrongEmphasisEmphasisHeading".s:fg_phead .s:bg_none.s:fmt_bldi
-exe "hi! pandocStrikeoutHeading"             .s:fg_phead .s:bg_none.s:fmt_revr
+exe "hi! pandocStrikeoutHeading"             .s:bg_phead .s:fg_none.s:fmt_none
 exe "hi! pandocVerbatimInlineHeading"        .s:fg_phead .s:bg_none.s:fmt_bold
 exe "hi! pandocSuperscriptHeading"           .s:fg_phead .s:bg_none.s:fmt_bold
 exe "hi! pandocSubscriptHeading"             .s:fg_phead .s:bg_none.s:fmt_bold
@@ -948,7 +970,7 @@ exe "hi! pandocEmphasisNested"           .s:fg_base0  .s:bg_none  .s:fmt_bldi
 exe "hi! pandocStrongEmphasis"           .s:fg_base0  .s:bg_none  .s:fmt_bold
 exe "hi! pandocStrongEmphasisNested"     .s:fg_base0  .s:bg_none  .s:fmt_bldi
 exe "hi! pandocStrongEmphasisEmphasis"   .s:fg_base0  .s:bg_none  .s:fmt_bldi
-exe "hi! pandocStrikeout"                .s:fg_base01 .s:bg_none  .s:fmt_revr
+exe "hi! pandocStrikeout"                .s:bg_base01 .s:fg_none  .s:fmt_none
 exe "hi! pandocVerbatimInline"           .s:fg_yellow .s:bg_none  .s:fmt_none
 exe "hi! pandocSuperscript"              .s:fg_violet .s:bg_none  .s:fmt_none
 exe "hi! pandocSubscript"                .s:fg_violet .s:bg_none  .s:fmt_none
@@ -957,7 +979,7 @@ exe "hi! pandocRule"                     .s:fg_blue   .s:bg_none  .s:fmt_bold
 exe "hi! pandocRuleLine"                 .s:fg_blue   .s:bg_none  .s:fmt_bold
 exe "hi! pandocEscapePair"               .s:fg_red    .s:bg_none  .s:fmt_bold
 exe "hi! pandocCitationRef"              .s:fg_magenta.s:bg_none   .s:fmt_none
-exe "hi! pandocNonBreakingSpace"         . s:fg_red   .s:bg_none  .s:fmt_revr
+exe "hi! pandocNonBreakingSpace"         . s:bg_red   .s:fg_none  .s:fmt_none
 hi! link pandocEscapedCharacter          pandocEscapePair
 hi! link pandocLineBreak                 pandocEscapePair
 
