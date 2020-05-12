@@ -412,12 +412,28 @@ endif
 "}}}
 " Overrides dependent on user specified values and environment "{{{
 " ---------------------------------------------------------------------
-if (g:solarized_bold == 0 || &t_Co == 8 )
+
+" bold:
+"    term          |     behavior
+"    linux console |     if i < 8
+"                  |       i+=8
+"                  |     else
+"                  |       ignored
+"                  |
+"    256 color     |    if i < 8
+"                  |       i += 8
+"                  |       make it bold
+"                  |    else
+"                  |       make it bold
+"
+"  To make it consistent across different terminals, bold should only be applied
+"  to 8+ index colors.
+"
+"  If you follow above rule, this option only make sense in 256 color terminal.
+if (g:solarized_bold == 0)
     let s:b           = ''
-    let s:bb          = ',bold'
 else
     let s:b           = ',bold'
-    let s:bb          = ''
 endif
 
 if g:solarized_underline == 0
@@ -475,7 +491,6 @@ let s:fg_cyan      = ' ' . s:vmode . 'fg=' . s:cyan
 
 let s:fmt_none     = ' ' . s:vmode . '=NONE' .           ' term=NONE'
 let s:fmt_bold     = ' ' . s:vmode . '=NONE' . s:b.      ' term=NONE' . s:b
-let s:fmt_bb       = ' ' . s:vmode . '=NONE' . s:bb.     ' term=NONE' . s:bb
 let s:fmt_bldi     = ' ' . s:vmode . '=NONE' . s:b.      ' term=NONE' . s:b
 let s:fmt_undr     = ' ' . s:vmode . '=NONE' . s:u.      ' term=NONE' . s:u
 let s:fmt_undb     = ' ' . s:vmode . '=NONE' . s:u.s:b.  ' term=NONE' . s:u.s:b
@@ -483,17 +498,6 @@ let s:fmt_undi     = ' ' . s:vmode . '=NONE' . s:u.      ' term=NONE' . s:u
 let s:fmt_uopt     = ' ' . s:vmode . '=NONE' . s:ou.     ' term=NONE' . s:ou
 let s:fmt_curl     = ' ' . s:vmode . '=NONE' . s:c.      ' term=NONE' . s:c
 let s:fmt_ital     = ' ' . s:vmode . '=NONE' . s:i.      ' term=NONE' . s:i
-
-" let s:fmt_stnd     = ' ' . s:vmode . '=NONE' . s:s.      ' term=NONE' . s:s
-" let s:fmt_revr     = ' ' . s:vmode . '=NONE' . s:r.      ' term=NONE' . s:r
-" let s:fmt_revb     = ' ' . s:vmode . '=NONE' . s:r.s:b.  ' term=NONE' . s:r.s:b
-
-" revbb (reverse bold for bright colors) is only set to actual bold in low
-" color terminals (t_co=8, such as OS X Terminal.app) and should only be used
-" with colors 8-15.
-" let s:fmt_revbb    = ' ' . s:vmode . '=NONE' . s:r  . s:bb .      ' term=NONE' . s:r  .s:bb
-" let s:fmt_revbbu   = ' ' . s:vmode . '=NONE' . s:r  . s:bb . s:u. ' term=NONE' . s:r  .s:bb . s:u
-let s:fmt_bbu      = ' ' . s:vmode . '=NONE' . s:bb . s:u  .      ' term=NONE' . s:bb .s:u
 
 if has('gui_running')
     let s:sp_none      = ' guisp=' . s:none
@@ -596,10 +600,10 @@ exe 'hi! Underlined'     .s:fmt_none   .s:fg_violet .s:bg_none
 exe 'hi! Ignore'         .s:fmt_none   .s:fg_none   .s:bg_none
 "       *Ignore          left blank, hidden  |hl-Ignore|
 
-exe 'hi! Error'          .s:fmt_bold   .s:fg_red    .s:bg_none
+exe 'hi! Error'          .s:fmt_bold   .s:fg_orange    .s:bg_none
 "       *Error           any erroneous construct
 
-exe 'hi! Todo'           .s:fmt_bold   .s:fg_magenta.s:bg_none
+exe 'hi! Todo'           .s:fmt_bold   .s:fg_violet .s:bg_none
 "       *Todo            anything that needs extra attention; mostly the
 "                        keywords TODO FIXME and XXX
 "
@@ -608,12 +612,12 @@ exe 'hi! Todo'           .s:fmt_bold   .s:fg_magenta.s:bg_none
 " ---------------------------------------------------------------------
 exe 'hi! SpecialKey' .s:fmt_bold   .s:fg_base00 .s:bg_base02
 exe 'hi! NonText'    .s:fmt_bold   .s:fg_base00 .s:bg_none
-exe 'hi! StatusLine'     .s:fmt_none   .s:bg_base00  .s:fg_base03 .s:fmt_bb
-exe 'hi! StatusLineNC'   .s:fmt_none   .s:bg_base02 . s:fg_base0 .s:fmt_bb
+exe 'hi! StatusLine'     .s:fmt_none   .s:bg_base00  .s:fg_base02 .s:fmt_bold
+exe 'hi! StatusLineNC'   .s:fmt_none   .s:bg_base02 .s:fg_base0 .s:fmt_bold
 hi! link StatusLineTerm   StatusLine
 hi! link StatusLineTermNC StatusLineNC
 
-exe 'hi! Visual'         .s:fmt_none   .s:bg_base01 .s:fg_base03 .s:fmt_bb
+exe 'hi! Visual'         .s:fmt_none   .s:bg_base01 .s:fg_base03 . s:fmt_bold
 exe 'hi! Directory'      .s:fmt_none   .s:fg_blue   .s:bg_none
 exe 'hi! ErrorMsg'       .s:fmt_none   .s:bg_red    .s:fg_base03
 exe 'hi! IncSearch'      .s:fmt_none   .s:bg_yellow .s:fg_base03
@@ -621,16 +625,16 @@ exe 'hi! Search'         .s:fmt_none   .s:bg_yellow .s:fg_base03
 exe 'hi! MoreMsg'        .s:fmt_none   .s:fg_blue   .s:bg_none
 exe 'hi! ModeMsg'        .s:fmt_none   .s:fg_blue   .s:bg_none
 exe 'hi! LineNr'         .s:fmt_none   .s:fg_base01 .s:bg_base02
-exe 'hi! Question'       .s:fmt_bold   .s:fg_cyan   .s:bg_none
+exe 'hi! Question'       .s:fmt_bold   .s:fg_base1   .s:bg_none
 if ( has('gui_running') || &t_Co > 8 )
     exe 'hi! VertSplit'  .s:fmt_none   .s:fg_base00 .s:bg_base00
 else
-    exe 'hi! VertSplit'  .s:fmt_bb  .s:bg_base00 .s:fg_base02
+    exe 'hi! VertSplit'  .s:bg_base00 .s:fg_base02
 endif
 exe 'hi! Title'          .s:fmt_bold   .s:fg_orange .s:bg_none
-exe 'hi! VisualNOS'      .s:fmt_none   .s:bg_base02   .s:fg_base03 .s:fmt_bb
-exe 'hi! WarningMsg'     .s:fmt_bold   .s:fg_red    .s:bg_none
-exe 'hi! WildMenu'       .s:fmt_none   .s:bg_base2  .s:fg_base02 .s:fmt_bb
+exe 'hi! VisualNOS'      .s:fmt_none   .s:bg_base02   .s:fg_base02
+exe 'hi! WarningMsg'     .s:fmt_bold   .s:fg_orange    .s:bg_none
+exe 'hi! WildMenu'       .s:fmt_none   .s:bg_base2  .s:fg_base02 . s:fmt_bold
 exe 'hi! Folded'         .s:fmt_undb   .s:fg_base0  .s:bg_base02  .s:sp_base03
 exe 'hi! FoldColumn'     .s:fmt_none   .s:fg_base0  .s:bg_base02
 if has('gui_running')
@@ -657,13 +661,13 @@ exe 'hi! PmenuSbar'      .s:fmt_none   .s:bg_base03 .s:fg_none
 exe 'hi! PmenuThumb'     .s:fmt_none   .s:bg_base0  .s:fg_base03
 exe 'hi! TabLine'        .s:fmt_undr   .s:fg_base0  .s:bg_base02  .s:sp_base0
 exe 'hi! TabLineFill'    .s:fmt_undr   .s:fg_base0  .s:bg_base02  .s:sp_base0
-exe 'hi! TabLineSel'     .s:fmt_undr   .s:bg_base01 .s:fg_base2   .s:sp_base0  .s:fmt_bbu
+exe 'hi! TabLineSel'     .s:fmt_undr   .s:bg_base01 .s:fg_base2   .s:sp_base0 .s:fmt_bold
 exe 'hi! CursorColumn'   .s:fmt_none   .s:fg_none   .s:bg_base02
 exe 'hi! CursorLine'     .s:fmt_uopt   .s:fg_none   .s:bg_base02  .s:sp_base1
 exe 'hi! ColorColumn'    .s:fmt_none   .s:fg_none   .s:bg_base02
 exe 'hi! Cursor'         .s:fmt_none   .s:fg_base03 .s:bg_base0
 hi! link lCursor Cursor
-exe 'hi! MatchParen'     .s:fmt_bold   .s:fg_red    .s:bg_base01
+exe 'hi! MatchParen'     .s:fmt_bold   .s:fg_orange .s:bg_base01
 
 "}}}
 " vim syntax highlighting "{{{
