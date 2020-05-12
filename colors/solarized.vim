@@ -1,92 +1,6 @@
-" Name:     Solarized vim colorscheme
-" Author:   Ethan Schoonover <es@ethanschoonover.com>
-" URL:      http://ethanschoonover.com/solarized
-"           (see this url for latest release & screenshots)
-" License:  OSI approved MIT license (see end of this file)
-" Created:  In the middle of the night
-" Modified: 2011 May 05
+" Adapted from http://ethanschoonover.com/solarized by dedowsdi@outllook.com
 "
 " Usage "{{{
-"
-" ---------------------------------------------------------------------
-" ABOUT:
-" ---------------------------------------------------------------------
-" Solarized is a carefully designed selective contrast colorscheme with dual
-" light and dark modes that runs in both GUI, 256 and 16 color modes.
-"
-" See the homepage above for screenshots and details.
-"
-" ---------------------------------------------------------------------
-" OPTIONS:
-" ---------------------------------------------------------------------
-" See the "solarized.txt" help file included with this colorscheme (in the
-" "doc" subdirectory) for information on options, usage, the Toggle Background
-" function and more. If you have already installed Solarized, this is available
-" from the Solarized menu and command line as ":help solarized"
-"
-" ---------------------------------------------------------------------
-" INSTALLATION:
-" ---------------------------------------------------------------------
-" Two options for installation: manual or pathogen
-"
-" MANUAL INSTALLATION OPTION:
-" ---------------------------------------------------------------------
-"
-" 1.  Download the solarized distribution (available on the homepage above)
-"     and unarchive the file.
-" 2.  Move `solarized.vim` to your `.vim/colors` directory.
-" 3.  Move each of the files in each subdirectories to the corresponding .vim
-"     subdirectory (e.g. autoload/togglebg.vim goes into your .vim/autoload
-"     directory as .vim/autoload/togglebg.vim).
-"
-" RECOMMENDED PATHOGEN INSTALLATION OPTION:
-" ---------------------------------------------------------------------
-"
-" 1.  Download and install Tim Pope's Pathogen from:
-"     https://github.com/tpope/vim-pathogen
-"
-" 2.  Next, move or clone the `vim-colors-solarized` directory so that it is
-"     a subdirectory of the `.vim/bundle` directory.
-"
-"     a. **clone with git:**
-"
-"       $ cd ~/.vim/bundle
-"       $ git clone git://github.com/altercation/vim-colors-solarized.git
-"
-"     b. **or move manually into the pathogen bundle directory:**
-"         In the parent directory of vim-colors-solarized:
-"
-"         $ mv vim-colors-solarized ~/.vim/bundle/
-"
-" MODIFY VIMRC:
-"
-" After either Option 1 or Option 2 above, put the following two lines in your
-" .vimrc:
-"
-"     syntax enable
-"     set background=dark
-"     colorscheme solarized
-"
-" or, for the light background mode of Solarized:
-"
-"     syntax enable
-"     set background=light
-"     colorscheme solarized
-"
-" I like to have a different background in GUI and terminal modes, so I can use
-" the following if-then. However, I find vim's background autodetection to be
-" pretty good and, at least with MacVim, I can leave this background value
-" assignment out entirely and get the same results.
-"
-"     if has('gui_running')
-"       set background=light
-"     else
-"       set background=dark
-"     endif
-"
-" See the Solarized homepage at http://ethanschoonover.com/solarized for
-" screenshots which will help you select either the light or dark background.
-"
 " ---------------------------------------------------------------------
 " COLOR VALUES
 " ---------------------------------------------------------------------
@@ -94,6 +8,11 @@
 "
 " L\*a\*b values are canonical (White D65, Reference D50), other values are
 " matched in sRGB space.
+"
+"
+" lightness:
+" base03 < base02 < base01 < base00 < base0 < base1 < base2 < base3
+" base03 is background for dark, base0 is foreground for dark
 "
 " SOLARIZED HEX     16/8 TERMCOL  XTERM/HEX   L*A*B      sRGB        HSB
 " --------- ------- ---- -------  ----------- ---------- ----------- -----------
@@ -151,6 +70,25 @@
 " You can only use rev if both fg and bg is greater or less equal to 7. The same
 " rule applies to standout, it's better to stay away from them.
 
+" ---------------------------------------------------------------------
+" ABOUT REVERSE, standout
+" ---------------------------------------------------------------------
+" bold:
+"    term          |     behavior
+"    linux console |     if i < 8
+"                  |       i+=8
+"                  |     else
+"                  |       ignored
+"                  |
+"    256 color     |    if i < 8
+"                  |       i += 8
+"                  |       make it bold
+"                  |    else
+"                  |       make it bold
+"
+"  To make it consistent across different terminals, bold should only be applied
+"  to 8+ index colors.
+
 " Terminals that support italics
 let s:terms_italic=[
             \'rxvt',
@@ -176,49 +114,14 @@ endif
 " }}}
 " Default option values"{{{
 " ---------------------------------------------------------------------
-" s:options_list is used to autogenerate a list of all non-default options
-" using "call SolarizedOptions()" or with the "Generate .vimrc commands"
-" Solarized menu option. See the "Menus" section below for the function itself.
-let s:options_list=[
-            \'" this block of commands has been autogenerated by solarized.vim and',
-            \'" includes the current, non-default Solarized option values.',
-            \'" To use, place these commands in your .vimrc file (replacing any',
-            \'" existing colorscheme commands). See also ":help solarized"',
-            \'',
-            \'" ------------------------------------------------------------------',
-            \'" Solarized Colorscheme Config',
-            \'" ------------------------------------------------------------------',
-            \]
-let s:colorscheme_list=[
-            \'syntax enable',
-            \'set background='.&background,
-            \'colorscheme solarized',
-            \]
-let s:defaults_list=[
-            \'" ------------------------------------------------------------------',
-            \'',
-            \'" The following items are available options, but do not need to be',
-            \'" included in your .vimrc as they are currently set to their defaults.',
-            \''
-            \]
-let s:lazycat_list=[
-            \'" lazy method of appending this onto your .vimrc ":w! >> ~/.vimrc"',
-            \'" ------------------------------------------------------------------',
-            \]
-
 function! s:SetOption(name,default)
     if type(a:default) == type(0)
         let l:wrap=''
-        let l:ewrap=''
     else
         let l:wrap='"'
-        let l:ewrap='\"'
     endif
-    if !exists('g:solarized_'.a:name) || g:solarized_{a:name}==a:default
-        exe 'let g:solarized_'.a:name.'='.l:wrap.a:default.l:wrap.'"'
-        exe 'call add(s:defaults_list, "\" let g:solarized_'.a:name.'='.l:ewrap.g:solarized_{a:name}.l:ewrap.'")'
-    else
-        exe 'call add(s:options_list,  "let g:solarized_'.a:name.'='.l:ewrap.g:solarized_{a:name}.l:ewrap.'    \"default value is '.a:default.'")'
+    if !exists('g:solarized_' . a:name) || g:solarized_{a:name} == a:default
+        exe 'let g:solarized_' . a:name . '=' . l:wrap . a:default . l:wrap.'"'
     endif
 endfunction
 
@@ -375,7 +278,7 @@ endif
 "}}}
 " Formatting options and null values for passthrough effect "{{{
 " ---------------------------------------------------------------------
-    let s:none            = 'none'
+    let s:none            = 'NONE'
     let s:c               = ',undercurl'
     let s:r               = ',reverse'
     let s:s               = ',standout'
@@ -412,24 +315,6 @@ endif
 "}}}
 " Overrides dependent on user specified values and environment "{{{
 " ---------------------------------------------------------------------
-
-" bold:
-"    term          |     behavior
-"    linux console |     if i < 8
-"                  |       i+=8
-"                  |     else
-"                  |       ignored
-"                  |
-"    256 color     |    if i < 8
-"                  |       i += 8
-"                  |       make it bold
-"                  |    else
-"                  |       make it bold
-"
-"  To make it consistent across different terminals, bold should only be applied
-"  to 8+ index colors.
-"
-"  If you follow above rule, this option only make sense in 256 color terminal.
 if (g:solarized_bold == 0)
     let s:b           = ''
 else
@@ -558,8 +443,7 @@ exe 'hi! Constant'       .s:fmt_none   .s:fg_cyan   .s:bg_none
 "        Boolean         a boolean constant: TRUE, false
 "        Float           a floating point constant: 2.3e10
 
-hi link Identifier Normal
-
+exe 'hi! Identifier'   .s:fmt_none   .s:fg_base2  .s:bg_none
 exe 'hi! Function'     .s:fmt_none   .s:fg_blue   .s:bg_none
 "       *Identifier      any variable name
 "        Function        function name (also: methods for classes)
@@ -989,44 +873,6 @@ augroup ag_solarized
   autocmd GUIEnter *
         \ if (s:vmode != 'gui') | exe 'colorscheme ' . g:colors_name | endif
 augroup end
-"}}}
-" Highlight Trailing Space {{{
-" Experimental: Different highlight when on cursorline
-function! s:SolarizedHiTrail()
-    if g:solarized_hitrail==0
-        hi! clear solarizedTrailingSpace
-    else
-        syn match solarizedTrailingSpace /\s*$/
-        exe 'hi! solarizedTrailingSpace' .s:fmt_undr .s:fg_red .s:bg_none .s:sp_red
-    endif
-endfunction
-augroup SolarizedHiTrail
-    autocmd!
-    if g:solarized_hitrail==1
-        autocmd! Syntax * call s:SolarizedHiTrail()
-        autocmd! ColorScheme * if g:colors_name == 'solarized' | call s:SolarizedHiTrail() | else | augroup! s:SolarizedHiTrail | endif
-    endif
-augroup END
-" }}}
-" Menus "{{{
-" ---------------------------------------------------------------------
-" Turn off Solarized menu by including the following assignment in your .vimrc:
-"
-"    let g:solarized_menu=0
-
-function! s:SolarizedOptions()
-    new "new buffer
-    setf vim "vim filetype
-    let failed = append(0, s:defaults_list)
-    let failed = append(0, s:colorscheme_list)
-    let failed = append(0, s:options_list)
-    let failed = append(0, s:lazycat_list)
-    0 "jump back to the top
-endfunction
-if !exists(':SolarizedOptions')
-    command SolarizedOptions :call s:SolarizedOptions()
-endif
-
 "}}}
 " License "{{{
 " ---------------------------------------------------------------------
