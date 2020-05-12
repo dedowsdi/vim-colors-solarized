@@ -675,10 +675,10 @@ exe "hi! DiffText"       .s:fmt_none   .s:fg_magenta   .s:bg_base02 .s:sp_blue
 endif
 exe "hi! SignColumn"     .s:fmt_none   .s:fg_base0
 exe "hi! Conceal"        .s:fmt_none   .s:fg_blue   .s:bg_none
-exe "hi! SpellBad"       .s:fmt_curl   .s:fg_none   .s:bg_none    .s:sp_red
-exe "hi! SpellCap"       .s:fmt_curl   .s:fg_none   .s:bg_none    .s:sp_violet
-exe "hi! SpellRare"      .s:fmt_curl   .s:fg_none   .s:bg_none    .s:sp_cyan
-exe "hi! SpellLocal"     .s:fmt_curl   .s:fg_none   .s:bg_none    .s:sp_yellow
+exe "hi! SpellBad"       .s:fg_red . s:bg_base02     .s:sp_red
+exe "hi! SpellCap"       .s:fg_base0  .s:bg_base02
+exe "hi! SpellRare"      .s:fg_green  .s:bg_none
+exe "hi! SpellLocal"     .s:fg_none  .s:bg_none
 exe "hi! Pmenu"          .s:fmt_none   .s:bg_base0  .s:fg_base02  .s:fmt_bb
 exe "hi! PmenuSel"       .s:fmt_none   .s:bg_base01 .s:fg_base2   .s:fmt_bb
 exe "hi! PmenuSbar"      .s:fmt_none   .s:bg_base2  .s:fg_base0   .s:fmt_bb
