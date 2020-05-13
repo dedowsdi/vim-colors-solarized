@@ -54,10 +54,10 @@
 " environment.
 
 " ---------------------------------------------------------------------
-" ABOUT REVERSE, standout
+" ABOUT reverse
 " ---------------------------------------------------------------------
-" linux-16color doesn't have full support for reverse and standout, these
-" commands are equal:
+" linux-16color doesn't have full support for reverse, these commands are
+" equal:
 "
 " tput setaf 1 ; tput setab 10 ; tput rev ; echo 123
 " tput setaf 2 ; tput setab 9 ; echo 123
@@ -71,15 +71,16 @@
 " rule applies to standout, it's better to stay away from them.
 
 " ---------------------------------------------------------------------
-" ABOUT REVERSE, standout
+" ABOUT bold
 " ---------------------------------------------------------------------
 " bold:
 "    term          |     behavior
+" --------------------------------------
 "    linux console |     if i < 8
 "                  |       i+=8
 "                  |     else
 "                  |       ignored
-"                  |
+" --------------------------------------
 "    256 color     |    if i < 8
 "                  |       i += 8
 "                  |       make it bold
@@ -494,15 +495,15 @@ exe 'hi! Todo'           s:fmt_bold     s:fg_violet   s:bg_none
 " ---------------------------------------------------------------------
 exe 'hi! SpecialKey'      s:fmt_bold     s:fg_base00   s:bg_base02
 exe 'hi! NonText'         s:fmt_bold     s:fg_base00   s:bg_none
-exe 'hi! StatusLine'      s:fmt_none     s:bg_base0    s:fg_base02   s:fmt_bold
-exe 'hi! StatusLineNC'    s:fmt_none     s:bg_base01   s:fg_base03   s:fmt_bold
+exe 'hi! StatusLine'      s:fmt_none     s:bg_base00   s:fg_base03   s:fmt_bold
+exe 'hi! StatusLineNC'    s:fmt_none     s:bg_base02   s:fg_base00
 hi! link StatusLineTerm   StatusLine
 hi! link StatusLineTermNC StatusLineNC
 
 exe 'hi! Visual'          s:fmt_none     s:bg_base01   s:fg_base03   s:fmt_bold
 exe 'hi! Directory'       s:fmt_none     s:fg_blue     s:bg_none
 exe 'hi! ErrorMsg'        s:fmt_none     s:bg_red      s:fg_base3
-exe 'hi! IncSearch'       s:fmt_none     s:bg_yellow   s:fg_base03
+exe 'hi! IncSearch'       s:fmt_none     s:bg_orange   s:fg_base03
 exe 'hi! Search'          s:fmt_none     s:bg_yellow   s:fg_base03
 exe 'hi! MoreMsg'         s:fmt_none     s:fg_blue     s:bg_none
 exe 'hi! ModeMsg'         s:fmt_none     s:fg_blue     s:bg_none
@@ -514,10 +515,10 @@ else
     exe 'hi! VertSplit'   s:bg_base00   s:fg_base02
 endif
 exe 'hi! Title'           s:fmt_bold     s:fg_orange   s:bg_none
-exe 'hi! VisualNOS'       s:fmt_none     s:bg_base02     s:fg_base02
-exe 'hi! WarningMsg'      s:fmt_bold     s:fg_orange      s:bg_none
+exe 'hi! VisualNOS'       s:fmt_none     s:bg_base02   s:fg_base02
+exe 'hi! WarningMsg'      s:fmt_bold     s:fg_orange   s:bg_none
 exe 'hi! WildMenu'        s:fmt_none     s:bg_base2    s:fg_base02   s:fmt_bold
-exe 'hi! Folded'          s:fmt_undb     s:fg_base0    s:bg_base02    s:sp_base03
+exe 'hi! Folded'          s:fmt_undb     s:fg_base0    s:bg_base02   s:sp_base03
 exe 'hi! FoldColumn'      s:fmt_none     s:fg_base0    s:bg_base02
 if has('gui_running')
     exe 'hi! DiffAdd'         s:fmt_bold     s:fg_green    s:bg_base02   s:sp_green

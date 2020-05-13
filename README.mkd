@@ -1,8 +1,8 @@
 Main change in this fork
 -------------------
  - make it work for 16 color linux console, you must make sure your linux console is capable of display 16 distinct foreground or background colors for this to work.
- - swap color pallete 0 and 8, 0 should be used as default background color, this fixes bce problem in screen-16color.
- - add lightline colorscheme, it doesn't change color when you switch mode.
+ - swap color pallete 0 and 8(in your bashrc or .Xresources), 0 should be used as default background color, this fixes bce problem in screen-16color.
+ - add lightline colorscheme, it's dark, quiet.
  - highlight Identifier as Base2 (less blue colors).
  - remove SolarizedOptions.
  - remove menu.
