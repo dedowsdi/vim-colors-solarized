@@ -90,58 +90,25 @@
 "  To make it consistent across different terminals, bold should only be applied
 "  to 8+ index colors.
 
-" Terminals that support italics
-let s:terms_italic=[
-            \'rxvt',
-            \'gnome-terminal'
-            \]
-" For reference only, terminals are known to be incomptible.
-" Terminals that are in neither list need to be tested.
-let s:terms_noitalic=[
-            \'iTerm.app',
-            \'Apple_Terminal'
-            \]
-if has('gui_running')
-    let s:terminal_italic=1 " TODO: could refactor to not require this at all
-else
-    let s:terminal_italic=0 " terminals will be guilty until proven compatible
-    for term in s:terms_italic
-        if $TERM =~? term
-            let s:terminal_italic=1
-        endif
-    endfor
-endif
-
 " }}}
 " Default option values"{{{
 " ---------------------------------------------------------------------
-function! s:SetOption(name,default)
-    if type(a:default) == type(0)
-        let l:wrap=''
-    else
-        let l:wrap='"'
-    endif
-    if !exists('g:solarized_' . a:name) || g:solarized_{a:name} == a:default
-        exe 'let g:solarized_' . a:name . '=' . l:wrap . a:default . l:wrap.'"'
-    endif
-endfunction
 
-if ($TERM_PROGRAM ==? 'apple_terminal' && &t_Co < 256)
-    let s:solarized_termtrans_default = 1
-else
-    let s:solarized_termtrans_default = 0
-endif
-call s:SetOption('termtrans',s:solarized_termtrans_default)
-call s:SetOption('degrade',0)
-call s:SetOption('bold',1)
-call s:SetOption('underline',1)
-call s:SetOption('italic',1) " note that we need to override this later if the terminal doesn't support
-call s:SetOption('termcolors',16)
-call s:SetOption('contrast','normal')
-call s:SetOption('visibility','normal')
-call s:SetOption('diffmode','normal')
-call s:SetOption('hitrail',0)
-call s:SetOption('menu',1)
+let s:cap_italic = has('gui_running') ||
+      \ !empty(filter(['rxvt', 'gnome-terminal'], { i,v -> stridx($TERM, v) != -1 }))
+let s:solarized_termtrans_default = $TERM_PROGRAM ==? 'apple_terminal' && &t_Co < 256
+
+let g:solarized_termtrans  = get(g:, 'solarized_termtrans', s:solarized_termtrans_default)
+let g:solarized_degrade    = get(g:, 'solarized_degrade', 0)
+let g:solarized_bold       = get(g:, 'solarized_bold', 1)
+let g:solarized_underline  = get(g:, 'solarized_underline', 1)
+let g:solarized_italic     = get(g:, 'solarized_italic', 1) && s:cap_italic
+let g:solarized_termcolors = get(g:, 'solarized_termcolors', 16)
+let g:solarized_contrast   = get(g:, 'solarized_contrast', 'normal')
+let g:solarized_visibility = get(g:, 'solarized_visibility', 'normal')
+let g:solarized_diffmode   = get(g:, 'solarized_diffmode', 'normal')
+let g:solarized_hitrail    = get(g:, 'solarized_hitrail', 0)
+let g:solarized_menu       = get(g:, 'solarized_menu', 1)
 
 "}}}
 " Colorscheme initialization "{{{
@@ -341,23 +308,10 @@ endif
 "}}}
 " Overrides dependent on user specified values and environment "{{{
 " ---------------------------------------------------------------------
-if (g:solarized_bold == 0)
-    let s:b           = ''
-else
-    let s:b           = ',bold'
-endif
+let s:b = g:solarized_bold ? ',bold' : ''
+let s:u = g:solarized_underline ? ',underline' : ''
+let s:i = g:solarized_italic ? ',italic' : ''
 
-if g:solarized_underline == 0
-    let s:u           = ''
-else
-    let s:u           = ',underline'
-endif
-
-if g:solarized_italic == 0 || s:terminal_italic == 0
-    let s:i           = ''
-else
-    let s:i           = ',italic'
-endif
 "}}}
 " Highlighting primitives"{{{
 " ---------------------------------------------------------------------
