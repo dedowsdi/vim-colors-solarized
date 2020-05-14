@@ -473,7 +473,7 @@ exe 'hi! Todo'           s:fmt_bold     s:fg_violet   s:bg_none
 " ---------------------------------------------------------------------
 exe 'hi! SpecialKey'      s:fmt_bold     s:fg_base00   s:bg_base02
 exe 'hi! NonText'         s:fmt_bold     s:fg_base00   s:bg_none
-exe 'hi! StatusLine'      s:fmt_none     s:bg_base00   s:fg_base03   s:fmt_bold
+exe 'hi! StatusLine'      s:fmt_none     s:bg_base00   s:fg_base03
 exe 'hi! StatusLineNC'    s:fmt_none     s:bg_base02   s:fg_base00
 hi! link StatusLineTerm   StatusLine
 hi! link StatusLineTermNC StatusLineNC
