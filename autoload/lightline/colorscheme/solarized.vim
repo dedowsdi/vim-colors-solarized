@@ -61,14 +61,14 @@ endif
 let s:bg_status = s:base00
 
 let s:p = {'normal': {}, 'inactive': {}, 'insert': {}, 'replace': {}, 'visual': {}, 'tabline': {}}
-let s:p.normal.left = [ [ s:base03, s:bg_status ], [ s:base03, s:bg_status ] ]
-let s:p.normal.right = [ [ s:base03, s:bg_status ], [ s:base03, s:bg_status ] ]
+let s:p.normal.left = [ [ s:base03, s:bg_status ], [ s:base03, s:base01 ] ]
+let s:p.normal.right = [ [ s:base03, s:bg_status ], [ s:base03, s:base01 ] ]
 let s:p.inactive.right = [ [ s:base03, s:bg_status ], [ s:base00, s:base02 ] ]
 let s:p.inactive.left =  [ [ s:base00, s:base02 ], [ s:base0, s:base02 ] ]
 let s:p.normal.middle = [ [ s:base03, s:bg_status ] ]
 let s:p.inactive.middle = [ [ s:base01, s:base02 ] ]
 let s:p.tabline.left = [ [ s:base03, s:base00 ] ]
-let s:p.tabline.tabsel = [ [ s:base03, s:base1 ] ]
+let s:p.tabline.tabsel = [ [ s:base03, s:base0 ] ]
 let s:p.tabline.middle = [ [ s:base0, s:base02 ] ]
 let s:p.tabline.right = copy(s:p.tabline.left)
 let s:p.normal.error = [ [ s:base03, s:red ] ]
@@ -77,4 +77,4 @@ let s:p.normal.warning = [ [ s:base03, s:yellow ] ]
 let g:lightline#colorscheme#solarized#palette = lightline#colorscheme#flatten(s:p)
 
 " debug reload
-call lightline#init() | call lightline#colorscheme() | call lightline#update()
+" call lightline#init() | call lightline#colorscheme() | call lightline#update()
