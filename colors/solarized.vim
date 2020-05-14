@@ -153,6 +153,31 @@ endif
 let colors_name = 'solarized'
 
 "}}}
+
+" gui terminal color"{{{
+  if has('gui_running') || &termguicolors
+    " 16 ansi colors (gruvbox) for gvim or if 'termguicolors' is on
+    let g:terminal_ansi_colors = [
+                \ '#002b36',
+                \ '#dc322f',
+                \ '#859900',
+                \ '#b58900',
+                \ '#268bd2',
+                \ '#d33682',
+                \ '#2aa198',
+                \ '#93a1a1',
+                \ '#073642',
+                \ '#cb4b16',
+                \ '#586e75',
+                \ '#657b83',
+                \ '#839496',
+                \ '#6c71c4',
+                \ '#93a1a1',
+                \ '#fdf6e3',
+                \ ]
+  endif
+"}}}
+
 " GUI & CSApprox hexadecimal palettes"{{{
 " ---------------------------------------------------------------------
 "
