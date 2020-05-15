@@ -334,6 +334,8 @@ let s:bg_magenta   = ' ' . s:vmode . 'bg=' . s:magenta
 let s:bg_violet    = ' ' . s:vmode . 'bg=' . s:violet
 let s:bg_blue      = ' ' . s:vmode . 'bg=' . s:blue
 let s:bg_cyan      = ' ' . s:vmode . 'bg=' . s:cyan
+let s:bg           = s:bg_base03
+let s:bg_fg        = s:bg_base0
 
 let s:fg_none      = ' ' . s:vmode . 'fg=' . s:none
 let s:fg_back      = ' ' . s:vmode . 'fg=' . s:back
@@ -353,6 +355,8 @@ let s:fg_magenta   = ' ' . s:vmode . 'fg=' . s:magenta
 let s:fg_violet    = ' ' . s:vmode . 'fg=' . s:violet
 let s:fg_blue      = ' ' . s:vmode . 'fg=' . s:blue
 let s:fg_cyan      = ' ' . s:vmode . 'fg=' . s:cyan
+let s:fg           = s:fg_base0
+let s:fg_bg        = s:fg_base03
 
 let s:fmt_none     = ' ' . s:vmode . '=NONE' .           ' term=NONE'
 let s:fmt_bold     = ' ' . s:vmode . '=NONE' . s:b.      ' term=NONE' . s:b
@@ -408,7 +412,16 @@ endif
 " note that link syntax to avoid duplicate configuration doesn't work with the
 " exe compiled formats
 
-exe 'hi! Normal'         s:fmt_none     s:fg_base0    s:bg_back
+exe 'hi SolarizedRedSign'       s:fmt_none  s:bg_none   s:fg_red
+exe 'hi SolarizedYellowSign'    s:fmt_none  s:bg_none   s:fg_yellow
+exe 'hi SolarizedOrangeSign'    s:fmt_none  s:bg_none   s:fg_orange
+exe 'hi SolarizedRedSign'       s:fmt_none  s:bg_none   s:fg_red
+exe 'hi SolarizedMagentaSign'   s:fmt_none  s:bg_none   s:fg_magenta
+exe 'hi SolarizedVioletSign'    s:fmt_none  s:bg_none   s:fg_violet
+exe 'hi SolarizedBlueSign'      s:fmt_none  s:bg_none   s:fg_blue
+exe 'hi SolarizedCyanSign'      s:fmt_none  s:bg_none   s:fg_cyan
+
+exe 'hi! Normal'         s:fmt_none     s:fg          s:bg
 
 exe 'hi! Comment'        s:fmt_ital     s:fg_base01   s:bg_none
 "       *Comment         any comment
@@ -525,10 +538,17 @@ exe 'hi! TabLineFill'     s:fmt_none     s:fg_base0    s:bg_base02    s:sp_base0
 exe 'hi! TabLineSel'      s:fmt_none     s:fg_base03   s:bg_base0     s:sp_base0
 exe 'hi! CursorColumn'    s:fmt_none     s:fg_none     s:bg_base02
 exe 'hi! CursorLine'      s:fmt_uopt     s:fg_none     s:bg_base02    s:sp_base1
+exe 'hi! CursorLineNr'    s:fmt_uopt     s:fg_none     s:bg_base02    s:sp_base1
 exe 'hi! ColorColumn'     s:fmt_none     s:fg_none     s:bg_base02
 exe 'hi! Cursor'          s:fmt_none     s:fg_base03   s:bg_base0
 hi! link lCursor Cursor
 exe 'hi! MatchParen'      s:fmt_bold     s:fg_orange   s:bg_base01
+
+"}}}
+
+" Termdebug "{{{
+hi link debugBreakpoint SolarizedMagentaSign
+exe 'hi! debugPC' s:fmt_none s:fg_base03 s:bg_base0
 
 "}}}
 " Utility autocommand "{{{
