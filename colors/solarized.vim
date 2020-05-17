@@ -148,12 +148,7 @@ let colors_name = 'solarized'
 " GUI & CSApprox hexadecimal palettes"{{{
 " ---------------------------------------------------------------------
 "
-" Set both gui and terminal color values in separate conditional statements
-" Due to possibility that CSApprox is running (though I suppose we could just
-" leave the hex values out entirely in that case and include only cterm colors)
-" We also check to see if user has set solarized (force use of the
-" neutral gray monotone palette component)
-if (has('gui_running') && g:solarized_degrade == 0)
+if has('gui_running')
     let s:vmode       = 'gui'
     let s:base03      = '#002b36'
     let s:base02      = '#073642'
@@ -172,37 +167,16 @@ if (has('gui_running') && g:solarized_degrade == 0)
     let s:cyan        = '#2aa198'
     "let s:green       = '#859900' "original
     let s:green       = '#719e07' "experimental
-elseif (has('gui_running') && g:solarized_degrade == 1)
-    " These colors are identical to the 256 color mode. They may be viewed
-    " while in gui mode via "let g:solarized_degrade=1", though this is not
-    " recommened and is for testing only.
-    let s:vmode       = 'gui'
-    let s:base03      = '#1c1c1c'
-    let s:base02      = '#262626'
-    let s:base01      = '#4e4e4e'
-    let s:base00      = '#585858'
-    let s:base0       = '#808080'
-    let s:base1       = '#8a8a8a'
-    let s:base2       = '#d7d7af'
-    let s:base3       = '#ffffd7'
-    let s:yellow      = '#af8700'
-    let s:orange      = '#d75f00'
-    let s:red         = '#af0000'
-    let s:magenta     = '#af005f'
-    let s:violet      = '#5f5faf'
-    let s:blue        = '#0087ff'
-    let s:cyan        = '#00afaf'
-    let s:green       = '#5f8700'
-elseif g:solarized_termcolors != 256 && &t_Co >= 16
-    "  0 and 8 are swapped, linux VT use 0 as default background
+elseif &t_Co >= 16
+    "  swap 0-8, 7-8, linux text console use 0 as background, 7 as foreground.
     let s:vmode       = 'cterm'
     let s:base03      = '0'
     let s:base02      = '8'
     let s:base01      = '10'
     let s:base00      = '11'
-    let s:base0       = '12'
-    let s:base1       = '14'
-    let s:base2       = '7'
+    let s:base0       = '7'
+    let s:base1       = '12'
+    let s:base2       = '14'
     let s:base3       = '15'
     let s:yellow      = '3'
     let s:orange      = '9'
@@ -212,26 +186,8 @@ elseif g:solarized_termcolors != 256 && &t_Co >= 16
     let s:blue        = '4'
     let s:cyan        = '6'
     let s:green       = '2'
-elseif g:solarized_termcolors == 256
-    let s:vmode       = 'cterm'
-    let s:base03      = '234'
-    let s:base02      = '235'
-    let s:base01      = '239'
-    let s:base00      = '240'
-    let s:base0       = '244'
-    let s:base1       = '245'
-    let s:base2       = '187'
-    let s:base3       = '230'
-    let s:yellow      = '136'
-    let s:orange      = '166'
-    let s:red         = '124'
-    let s:magenta     = '125'
-    let s:violet      = '61'
-    let s:blue        = '33'
-    let s:cyan        = '37'
-    let s:green       = '64'
 else
-    "  0 and 8 are swapped, linux VT use 0 as default background
+    "  swap 0-8, 7-8, linux text console use 0 as background, 7 as foreground.
     let s:vmode       = 'cterm'
     let s:bright      = '* term=bold cterm=bold'
 "   let s:base03      = '0'.s:bright
@@ -254,9 +210,9 @@ else
     let s:base03      = 'Black'         " 0
     let s:base01      = 'LightGreen'    " 2*
     let s:base00      = 'LightYellow'   " 3*
-    let s:base0       = 'LightBlue'     " 4*
-    let s:base1       = 'LightCyan'     " 6*
-    let s:base2       = 'LightGray'     " 7
+    let s:base0       = 'LightGray'     " 7
+    let s:base1       = 'LightGreen'    " 4*
+    let s:base2       = 'LightCyan'     " 6*
     let s:base3       = 'White'         " 7*
     let s:yellow      = 'DarkYellow'    " 3
     let s:orange      = 'LightRed'      " 1*
@@ -491,9 +447,9 @@ exe 'hi! StatusLineNC'    s:fmt_none     s:bg_base02   s:fg_base00
 hi! link StatusLineTerm   StatusLine
 hi! link StatusLineTermNC StatusLineNC
 
-exe 'hi! Visual'          s:fmt_none     s:bg_base01   s:fg_base03   s:fmt_bold
+exe 'hi! Visual'          s:fmt_none     s:bg_base01   s:fg_base02   s:fmt_bold
 exe 'hi! Directory'       s:fmt_none     s:fg_blue     s:bg_none
-exe 'hi! ErrorMsg'        s:fmt_none     s:bg_red      s:fg_base3
+exe 'hi! ErrorMsg'        s:fmt_none     s:bg_red      s:fg_base2
 exe 'hi! IncSearch'       s:fmt_none     s:bg_orange   s:fg_base03
 exe 'hi! Search'          s:fmt_none     s:bg_yellow   s:fg_base03
 exe 'hi! MoreMsg'         s:fmt_none     s:fg_blue     s:bg_none
@@ -508,8 +464,8 @@ endif
 exe 'hi! Title'           s:fmt_bold     s:fg_orange   s:bg_none
 exe 'hi! VisualNOS'       s:fmt_none     s:bg_base02   s:fg_base02
 exe 'hi! WarningMsg'      s:fmt_bold     s:fg_orange   s:bg_none
-exe 'hi! WildMenu'        s:fmt_none     s:bg_base2    s:fg_base02   s:fmt_bold
-exe 'hi! Folded'          s:fmt_undb     s:fg_base0    s:bg_base02   s:sp_base03
+exe 'hi! WildMenu'        s:fmt_none     s:bg_base1    s:fg_base02   s:fmt_bold
+exe 'hi! Folded'          s:fmt_undr     s:fg_base1    s:bg_base02   s:sp_base03
 exe 'hi! FoldColumn'      s:fmt_none     s:fg_base0    s:bg_base02
 if has('gui_running')
     exe 'hi! DiffAdd'         s:fmt_bold     s:fg_green    s:bg_base02   s:sp_green
