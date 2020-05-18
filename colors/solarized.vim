@@ -467,23 +467,18 @@ exe 'hi! WarningMsg'      s:fmt_bold     s:fg_orange   s:bg_none
 exe 'hi! WildMenu'        s:fmt_none     s:bg_base1    s:fg_base02   s:fmt_bold
 exe 'hi! Folded'          s:fmt_undr     s:fg_base1    s:bg_base02   s:sp_base03
 exe 'hi! FoldColumn'      s:fmt_none     s:fg_base0    s:bg_base02
-if has('gui_running')
-    exe 'hi! DiffAdd'         s:fmt_bold     s:fg_green    s:bg_base02   s:sp_green
-    exe 'hi! DiffChange'      s:fmt_bold     s:fg_yellow   s:bg_base02   s:sp_yellow
-    exe 'hi! DiffDelete'      s:fmt_bold     s:fg_red      s:bg_base02
-    exe 'hi! DiffText'        s:fmt_bold     s:fg_blue     s:bg_base02   s:sp_blue
-else
-    exe 'hi! DiffAdd'         s:fmt_none     s:fg_green    s:bg_base02   s:sp_green
-    exe 'hi! DiffChange'      s:fmt_none     s:fg_base0    s:bg_base02   s:sp_yellow
-    exe 'hi! DiffDelete'      s:fmt_none     s:fg_red      s:bg_base02
-    exe 'hi! DiffText'        s:fmt_none     s:fg_magenta  s:bg_base02   s:sp_blue
-endif
+
+exe 'hi! DiffAdd'         s:fmt_none     s:bg_green    s:fg_base03
+exe 'hi! DiffChange'      s:fmt_none     s:bg_yellow   s:fg_base03
+exe 'hi! DiffDelete'      s:fmt_none     s:bg_red      s:fg_base03
+exe 'hi! DiffText'        s:fmt_none     s:bg_blue     s:fg_base03
+
 exe 'hi! SignColumn'      s:fmt_none     s:fg_base0
 exe 'hi! Conceal'         s:fmt_none     s:fg_blue     s:bg_none
-exe 'hi! SpellBad'        s:fg_red       s:bg_base02   s:sp_red
-exe 'hi! SpellCap'        s:fg_base0     s:bg_base02
-exe 'hi! SpellRare'       s:fg_green     s:bg_none
-exe 'hi! SpellLocal'      s:fg_none      s:bg_none
+exe 'hi! SpellBad'        s:fmt_curl     s:fg_none     s:bg_none   s:sp_red
+exe 'hi! SpellCap'        s:fmt_curl     s:fg_none     s:bg_none   s:sp_violet
+exe 'hi! SpellRare'       s:fmt_curl     s:fg_none     s:bg_none   s:sp_cyan
+exe 'hi! SpellLocal'      s:fmt_curl     s:fg_none     s:bg_none   s:sp_yellow
 
 exe 'hi! Pmenu'           s:fmt_none     s:bg_base02   s:fg_base0
 exe 'hi! PmenuSel'        s:fmt_none     s:bg_base01   s:fg_base02    s:fmt_bold
