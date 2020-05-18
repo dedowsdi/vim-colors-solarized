@@ -121,125 +121,86 @@ let colors_name = 'solarized'
 
 "}}}
 
-" gui terminal color"{{{
-  if has('gui_running') || &termguicolors
-    " 16 ansi colors (gruvbox) for gvim or if 'termguicolors' is on
-    let g:terminal_ansi_colors = [
-                \ '#002b36',
-                \ '#dc322f',
-                \ '#859900',
-                \ '#b58900',
-                \ '#268bd2',
-                \ '#d33682',
-                \ '#2aa198',
-                \ '#93a1a1',
-                \ '#073642',
-                \ '#cb4b16',
-                \ '#586e75',
-                \ '#657b83',
-                \ '#839496',
-                \ '#6c71c4',
-                \ '#93a1a1',
-                \ '#fdf6e3',
-                \ ]
-  endif
-"}}}
-
 " GUI & CSApprox hexadecimal palettes"{{{
-" ---------------------------------------------------------------------
-"
-if has('gui_running')
-    let s:vmode       = 'gui'
-    let s:base03      = '#002b36'
-    let s:base02      = '#073642'
-    let s:base01      = '#586e75'
-    let s:base00      = '#657b83'
-    let s:base0       = '#839496'
-    let s:base1       = '#93a1a1'
-    let s:base2       = '#eee8d5'
-    let s:base3       = '#fdf6e3'
-    let s:yellow      = '#b58900'
-    let s:orange      = '#cb4b16'
-    let s:red         = '#dc322f'
-    let s:magenta     = '#d33682'
-    let s:violet      = '#6c71c4'
-    let s:blue        = '#268bd2'
-    let s:cyan        = '#2aa198'
-    "let s:green       = '#859900' "original
-    let s:green       = '#719e07' "experimental
-elseif &t_Co >= 16
-    "  swap 0-8, 7-8, linux text console use 0 as background, 7 as foreground.
-    let s:vmode       = 'cterm'
-    let s:base03      = '0'
-    let s:base02      = '8'
-    let s:base01      = '10'
-    let s:base00      = '11'
-    let s:base0       = '7'
-    let s:base1       = '12'
-    let s:base2       = '14'
-    let s:base3       = '15'
-    let s:yellow      = '3'
-    let s:orange      = '9'
-    let s:red         = '1'
-    let s:magenta     = '5'
-    let s:violet      = '13'
-    let s:blue        = '4'
-    let s:cyan        = '6'
-    let s:green       = '2'
-else
-    "  swap 0-8, 7-8, linux text console use 0 as background, 7 as foreground.
-    let s:vmode       = 'cterm'
-    let s:bright      = '* term=bold cterm=bold'
-"   let s:base03      = '0'.s:bright
-"   let s:base02      = '0'
-"   let s:base01      = '2'.s:bright
-"   let s:base00      = '3'.s:bright
-"   let s:base0       = '4'.s:bright
-"   let s:base1       = '6'.s:bright
-"   let s:base2       = '7'
-"   let s:base3       = '7'.s:bright
-"   let s:yellow      = '3'
-"   let s:orange      = '1'.s:bright
-"   let s:red         = '1'
-"   let s:magenta     = '5'
-"   let s:violet      = '5'.s:bright
-"   let s:blue        = '4'
-"   let s:cyan        = '6'
-"   let s:green       = '2'
-    let s:base02      = 'DarkGray'      " 0*
-    let s:base03      = 'Black'         " 0
-    let s:base01      = 'LightGreen'    " 2*
-    let s:base00      = 'LightYellow'   " 3*
-    let s:base0       = 'LightGray'     " 7
-    let s:base1       = 'LightGreen'    " 4*
-    let s:base2       = 'LightCyan'     " 6*
-    let s:base3       = 'White'         " 7*
-    let s:yellow      = 'DarkYellow'    " 3
-    let s:orange      = 'LightRed'      " 1*
-    let s:red         = 'DarkRed'       " 1
-    let s:magenta     = 'DarkMagenta'   " 5
-    let s:violet      = 'LightMagenta'  " 5*
-    let s:blue        = 'DarkBlue'      " 4
-    let s:cyan        = 'DarkCyan'      " 6
-    let s:green       = 'DarkGreen'     " 2
 
-endif
+" look, I swapped 0 and 8, 7 and 12. I prefer to let Normal be the same as
+" terminal bg and fg.
+let g:terminal_ansi_colors = [
+            \ '#002b36',
+            \ '#dc322f',
+            \ '#859900',
+            \ '#b58900',
+            \ '#268bd2',
+            \ '#d33682',
+            \ '#2aa198',
+            \ '#839496',
+            \ '#073642',
+            \ '#cb4b16',
+            \ '#586e75',
+            \ '#657b83',
+            \ '#93a1a1',
+            \ '#6c71c4',
+            \ '#eee8d5',
+            \ '#fdf6e3',
+            \ ]
+
+" ---------------------------------------------------------------------
+let s:pallete = {
+      \ 'mode'    :  [ 'gui'                      , 'cterm' , 'cterm'        ]  ,
+      \ 'base03'  :  [ g:terminal_ansi_colors[0]  , 0       , 'DarkGray'     ]  ,
+      \ 'red'     :  [ g:terminal_ansi_colors[1]  , 1       , 'DarkRed'      ]  ,
+      \ 'green'   :  [ g:terminal_ansi_colors[2]  , 2       , 'DarkGreen'    ]  ,
+      \ 'yellow'  :  [ g:terminal_ansi_colors[3]  , 3       , 'DarkYellow'   ]  ,
+      \ 'blue'    :  [ g:terminal_ansi_colors[4]  , 4       , 'DarkBlue'     ]  ,
+      \ 'magenta' :  [ g:terminal_ansi_colors[5]  , 5       , 'DarkMagenta'  ]  ,
+      \ 'cyan'    :  [ g:terminal_ansi_colors[6]  , 6       , 'DarkCyan'     ]  ,
+      \ 'base0'   :  [ g:terminal_ansi_colors[7]  , 7       , 'LightGray'    ]  ,
+      \ 'base02'  :  [ g:terminal_ansi_colors[8]  , 8       , 'Black'        ]  ,
+      \ 'orange'  :  [ g:terminal_ansi_colors[9]  , 9       , 'LightRed'     ]  ,
+      \ 'base01'  :  [ g:terminal_ansi_colors[10] , 10      , 'LightGreen'   ]  ,
+      \ 'base00'  :  [ g:terminal_ansi_colors[11] , 11      , 'LightYellow'  ]  ,
+      \ 'base1'   :  [ g:terminal_ansi_colors[12] , 12      , 'LightGreen'   ]  ,
+      \ 'violet'  :  [ g:terminal_ansi_colors[13] , 13      , 'LightMagenta' ]  ,
+      \ 'base2'   :  [ g:terminal_ansi_colors[14] , 14      , 'LightCyan'    ]  ,
+      \ 'base3'   :  [ g:terminal_ansi_colors[15] , 15      , 'White'        ]  ,
+      \}
+
+let s:idx = has('gui_running') ? 0 : &t_Co >= 16 ? 1 : 2
+
+let s:vmode   = s:pallete.mode[s:idx]
+let s:base03  = s:pallete.base03[s:idx]
+let s:base02  = s:pallete.base02[s:idx]
+let s:base01  = s:pallete.base01[s:idx]
+let s:base00  = s:pallete.base00[s:idx]
+let s:base0   = s:pallete.base0[s:idx]
+let s:base1   = s:pallete.base1[s:idx]
+let s:base2   = s:pallete.base2[s:idx]
+let s:base3   = s:pallete.base3[s:idx]
+let s:yellow  = s:pallete.yellow[s:idx]
+let s:orange  = s:pallete.orange[s:idx]
+let s:red     = s:pallete.red[s:idx]
+let s:magenta = s:pallete.magenta[s:idx]
+let s:violet  = s:pallete.violet[s:idx]
+let s:blue    = s:pallete.blue[s:idx]
+let s:cyan    = s:pallete.cyan[s:idx]
+let s:green   = s:pallete.green[s:idx]
+
 "}}}
 " Formatting options and null values for passthrough effect "{{{
 " ---------------------------------------------------------------------
-    let s:none            = 'NONE'
-    let s:c               = ',undercurl'
-    let s:r               = ',reverse'
-    let s:s               = ',standout'
-    let s:ou              = ''
-    let s:ob              = ''
+let s:none            = 'NONE'
+let s:c               = ',undercurl'
+let s:r               = ',reverse'
+let s:s               = ',standout'
+let s:ou              = ''
+let s:ob              = ''
 "}}}
 " Background value based on termtrans setting "{{{
 " ---------------------------------------------------------------------
 if (has('gui_running') || g:solarized_termtrans == 0)
     let s:back        = s:base03
 else
-    let s:back        = 'none'
+    let s:back        = 'NONE'
 endif
 "}}}
 " Alternate light scheme "{{{
@@ -257,7 +218,7 @@ if &background ==# 'light'
     let s:base1       = s:temp01
     let s:base2       = s:temp02
     let s:base3       = s:temp03
-    if (s:back !=# 'none')
+    if (s:back !=# 'NONE')
         let s:back    = s:base03
     endif
 endif
@@ -456,11 +417,7 @@ exe 'hi! MoreMsg'         s:fmt_none     s:fg_blue     s:bg_none
 exe 'hi! ModeMsg'         s:fmt_none     s:fg_blue     s:bg_none
 exe 'hi! LineNr'          s:fmt_none     s:fg_base01   s:bg_base02
 exe 'hi! Question'        s:fmt_bold     s:fg_base1     s:bg_none
-if ( has('gui_running') || &t_Co > 8 )
-    exe 'hi! VertSplit'   s:fmt_none     s:fg_base00   s:bg_base00
-else
-    exe 'hi! VertSplit'   s:bg_base00   s:fg_base02
-endif
+exe 'hi! VertSplit'       s:fmt_none     s:fg_base00   s:bg_base00
 exe 'hi! Title'           s:fmt_bold     s:fg_orange   s:bg_none
 exe 'hi! VisualNOS'       s:fmt_none     s:bg_base02   s:fg_base02
 exe 'hi! WarningMsg'      s:fmt_bold     s:fg_orange   s:bg_none
@@ -482,11 +439,13 @@ exe 'hi! SpellLocal'      s:fmt_curl     s:fg_none     s:bg_none   s:sp_yellow
 
 exe 'hi! Pmenu'           s:fmt_none     s:bg_base02   s:fg_base0
 exe 'hi! PmenuSel'        s:fmt_none     s:bg_base01   s:fg_base02    s:fmt_bold
-exe 'hi! PmenuSbar'       s:fmt_none     s:bg_base03   s:fg_none
-exe 'hi! PmenuThumb'      s:fmt_none     s:bg_base0    s:fg_base03
+exe 'hi! PmenuSbar'       s:fmt_none     s:bg_base02   s:fg_base02
+exe 'hi! PmenuThumb'      s:fmt_none     s:bg_base0    s:fg_base02
+
 exe 'hi! TabLine'         s:fmt_none     s:fg_base0    s:bg_base02    s:sp_base0
 exe 'hi! TabLineFill'     s:fmt_none     s:fg_base0    s:bg_base02    s:sp_base0
 exe 'hi! TabLineSel'      s:fmt_none     s:fg_base03   s:bg_base0     s:sp_base0
+
 exe 'hi! CursorColumn'    s:fmt_none     s:fg_none     s:bg_base02
 exe 'hi! CursorLine'      s:fmt_uopt     s:fg_none     s:bg_base02    s:sp_base1
 exe 'hi! CursorLineNr'    s:fmt_uopt     s:fg_none     s:bg_base02    s:sp_base1
