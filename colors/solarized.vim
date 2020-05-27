@@ -99,16 +99,10 @@ let s:cap_italic = has('gui_running') ||
 let s:solarized_termtrans_default = $TERM_PROGRAM ==? 'apple_terminal' && &t_Co < 256
 
 let g:solarized_termtrans  = get(g:, 'solarized_termtrans', s:solarized_termtrans_default)
-let g:solarized_degrade    = get(g:, 'solarized_degrade', 0)
 let g:solarized_bold       = get(g:, 'solarized_bold', 1)
 let g:solarized_underline  = get(g:, 'solarized_underline', 1)
 let g:solarized_italic     = get(g:, 'solarized_italic', 1) && s:cap_italic
 let g:solarized_termcolors = get(g:, 'solarized_termcolors', 16)
-let g:solarized_contrast   = get(g:, 'solarized_contrast', 'normal')
-let g:solarized_visibility = get(g:, 'solarized_visibility', 'normal')
-let g:solarized_diffmode   = get(g:, 'solarized_diffmode', 'normal')
-let g:solarized_hitrail    = get(g:, 'solarized_hitrail', 0)
-let g:solarized_menu       = get(g:, 'solarized_menu', 1)
 
 "}}}
 " Colorscheme initialization "{{{
