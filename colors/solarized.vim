@@ -159,7 +159,9 @@ let s:pallete = {
       \ 'base3'   :  [ g:terminal_ansi_colors[15] , 15      , 'White'        ]  ,
       \}
 
-let s:idx = has('gui_running') ? 0 : &t_Co >= 16 ? 1 : 2
+
+let s:amode = has('gui_running') ? 'gui' : &t_Co >= 16 ? 'cterm' : 'term'
+let s:idx = has('gui_running') || &termguicolors ? 0 : &t_Co >= 16 ? 1 : 2
 
 let s:vmode   = s:pallete.mode[s:idx]
 let s:base03  = s:pallete.base03[s:idx]
@@ -245,8 +247,8 @@ let s:bg_magenta   = ' ' . s:vmode . 'bg=' . s:magenta
 let s:bg_violet    = ' ' . s:vmode . 'bg=' . s:violet
 let s:bg_blue      = ' ' . s:vmode . 'bg=' . s:blue
 let s:bg_cyan      = ' ' . s:vmode . 'bg=' . s:cyan
-let s:bg           = s:bg_base03
-let s:bg_fg        = s:bg_base0
+let s:bg           = ' ' . s:vmode . 'bg=bg'
+let s:bg_fg        = ' ' . s:vmode . 'bg=fg'
 
 let s:fg_none      = ' ' . s:vmode . 'fg=' . s:none
 let s:fg_back      = ' ' . s:vmode . 'fg=' . s:back
@@ -266,16 +268,16 @@ let s:fg_magenta   = ' ' . s:vmode . 'fg=' . s:magenta
 let s:fg_violet    = ' ' . s:vmode . 'fg=' . s:violet
 let s:fg_blue      = ' ' . s:vmode . 'fg=' . s:blue
 let s:fg_cyan      = ' ' . s:vmode . 'fg=' . s:cyan
-let s:fg           = s:fg_base0
-let s:fg_bg        = s:fg_base03
+let s:fg           = ' ' . s:vmode . 'fg=fg'
+let s:fg_bg        = ' ' . s:vmode . 'fg=bg'
 
-let s:fmt_none     = ' ' . s:vmode . '=NONE' .           ' term=NONE'
-let s:fmt_bold     = ' ' . s:vmode . '=NONE' . s:b.      ' term=NONE' . s:b
-let s:fmt_undr     = ' ' . s:vmode . '=NONE' . s:u.      ' term=NONE' . s:u
-let s:fmt_undb     = ' ' . s:vmode . '=NONE' . s:u.s:b.  ' term=NONE' . s:u.s:b
-let s:fmt_uopt     = ' ' . s:vmode . '=NONE' . s:ou.     ' term=NONE' . s:ou
-let s:fmt_curl     = ' ' . s:vmode . '=NONE' . s:c.      ' term=NONE' . s:c
-let s:fmt_ital     = ' ' . s:vmode . '=NONE' . s:i.      ' term=NONE' . s:i
+let s:fmt_none     = ' ' . s:amode . '=NONE' .           ' term=NONE'
+let s:fmt_bold     = ' ' . s:amode . '=NONE' . s:b.      ' term=NONE' . s:b
+let s:fmt_undr     = ' ' . s:amode . '=NONE' . s:u.      ' term=NONE' . s:u
+let s:fmt_undb     = ' ' . s:amode . '=NONE' . s:u.s:b.  ' term=NONE' . s:u.s:b
+let s:fmt_uopt     = ' ' . s:amode . '=NONE' . s:ou.     ' term=NONE' . s:ou
+let s:fmt_curl     = ' ' . s:amode . '=NONE' . s:c.      ' term=NONE' . s:c
+let s:fmt_ital     = ' ' . s:amode . '=NONE' . s:i.      ' term=NONE' . s:i
 
 if has('gui_running')
     let s:sp_none      = ' guisp=' . s:none
@@ -323,6 +325,8 @@ endif
 " note that link syntax to avoid duplicate configuration doesn't work with the
 " exe compiled formats
 
+exe 'hi! Normal'         s:fmt_none     s:fg_base0    s:bg_back
+
 exe 'hi SolarizedRedSign'       s:fmt_none  s:bg_none   s:fg_red
 exe 'hi SolarizedYellowSign'    s:fmt_none  s:bg_none   s:fg_yellow
 exe 'hi SolarizedOrangeSign'    s:fmt_none  s:bg_none   s:fg_orange
@@ -331,8 +335,6 @@ exe 'hi SolarizedMagentaSign'   s:fmt_none  s:bg_none   s:fg_magenta
 exe 'hi SolarizedVioletSign'    s:fmt_none  s:bg_none   s:fg_violet
 exe 'hi SolarizedBlueSign'      s:fmt_none  s:bg_none   s:fg_blue
 exe 'hi SolarizedCyanSign'      s:fmt_none  s:bg_none   s:fg_cyan
-
-exe 'hi! Normal'         s:fmt_none     s:fg          s:bg
 
 exe 'hi! Comment'        s:fmt_none     s:fg_base01   s:bg_none
 "       *Comment         any comment
@@ -425,11 +427,11 @@ exe 'hi! DiffDelete'      s:fmt_none     s:bg_red      s:fg_base03
 exe 'hi! DiffText'        s:fmt_none     s:bg_blue     s:fg_base03
 
 exe 'hi! SignColumn'      s:fmt_none     s:fg_base0
-exe 'hi! Conceal'         s:fmt_none     s:fg_blue     s:bg_none
-exe 'hi! SpellBad'        s:fmt_curl     s:fg_none     s:bg_none   s:sp_red
-exe 'hi! SpellCap'        s:fmt_curl     s:fg_none     s:bg_none   s:sp_violet
-exe 'hi! SpellRare'       s:fmt_curl     s:fg_none     s:bg_none   s:sp_cyan
-exe 'hi! SpellLocal'      s:fmt_curl     s:fg_none     s:bg_none   s:sp_yellow
+exe 'hi! Conceal'         s:fmt_none     s:fg_blue     s:bg
+exe 'hi! SpellBad'        s:fmt_undr     s:fg          s:bg_none  s:sp_red
+exe 'hi! SpellCap'        s:fmt_undr     s:fg          s:bg_none  s:sp_violet
+exe 'hi! SpellRare'       s:fmt_undr     s:fg          s:bg_none  s:sp_cyan
+exe 'hi! SpellLocal'      s:fmt_undr     s:fg          s:bg_none  s:sp_yellow
 
 exe 'hi! Pmenu'           s:fmt_none     s:bg_base02   s:fg_base0
 exe 'hi! PmenuSel'        s:fmt_none     s:bg_base01   s:fg_base02    s:fmt_bold
