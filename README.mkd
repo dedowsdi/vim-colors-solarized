@@ -1,12 +1,34 @@
 Main change in this fork
--------------------
+------------------------
+ - remove bright colors for better terminal use, it's dark only.
  - make it work for 16 color linux console, you must make sure your linux console is capable of display 16 distinct foreground or background colors for this to work.
- - swap color pallete 0 and 8, 7 and 12 (in your bashrc or .Xresources), 0 should be used as default background color, this fixes bce problem in screen-16color, 7 should also be used as default foreground color.
- - add lightline colorscheme, it's dark, quiet.
  - remove language specific highlighting.
  - remove SolarizedOptions.
  - remove menu.
  - remove low, hight contrast.
+
+Color Pallette
+--------------
+
+```
+0   base03          002b36
+1   red             dc322f
+2   green           859900
+3   yellow          b58900
+4   blue            268bd2
+5   magenta         d33682
+6   cyan            2aa198
+7   base0           839496
+
+8   base02          073642
+9   orange          cb4b16
+10  base01          586e75
+11  bright yelllow  657b83   not used, you can change it
+12  bright blue     3e64fb   not used, you can change it
+13  violet          6c71c4
+14  bright cyan     009942   not used, you can change it
+15  bright white    a39383   not used, you can change it
+```
 
 ---
 Title: Solarized Colorscheme for Vim

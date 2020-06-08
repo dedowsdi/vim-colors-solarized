@@ -1,4 +1,4 @@
-" Adapted from http://ethanschoonover.com/solarized by dedowsdi@outllook.com
+" Adapted from http://ethanschoonover.com/solarized by dedowsdi@outllook.comAø
 "
 " Usage "{{{
 " ---------------------------------------------------------------------
@@ -9,49 +9,9 @@
 " L\*a\*b values are canonical (White D65, Reference D50), other values are
 " matched in sRGB space.
 "
-"
 " lightness:
 " base03 < base02 < base01 < base00 < base0 < base1 < base2 < base3
 " base03 is background for dark, base0 is foreground for dark
-"
-" SOLARIZED HEX     16/8 TERMCOL  XTERM/HEX   L*A*B      sRGB        HSB
-" --------- ------- ---- -------  ----------- ---------- ----------- -----------
-" base03    #002b36  8/4 brblack  234 #1c1c1c 15 -12 -12   0  43  54 193 100  21
-" base02    #073642  0/4 black    235 #262626 20 -12 -12   7  54  66 192  90  26
-" base01    #586e75 10/7 brgreen  240 #4e4e4e 45 -07 -07  88 110 117 194  25  46
-" base00    #657b83 11/7 bryellow 241 #585858 50 -07 -07 101 123 131 195  23  51
-" base0     #839496 12/6 brblue   244 #808080 60 -06 -03 131 148 150 186  13  59
-" base1     #93a1a1 14/4 brcyan   245 #8a8a8a 65 -05 -02 147 161 161 180   9  63
-" base2     #eee8d5  7/7 white    254 #d7d7af 92 -00  10 238 232 213  44  11  93
-" base3     #fdf6e3 15/7 brwhite  230 #ffffd7 97  00  10 253 246 227  44  10  99
-" yellow    #b58900  3/3 yellow   136 #af8700 60  10  65 181 137   0  45 100  71
-" orange    #cb4b16  9/3 brred    166 #d75f00 50  50  55 203  75  22  18  89  80
-" red       #dc322f  1/1 red      160 #d70000 50  65  45 220  50  47   1  79  86
-" magenta   #d33682  5/5 magenta  125 #af005f 50  65 -05 211  54 130 331  74  83
-" violet    #6c71c4 13/5 brmagenta 61 #5f5faf 50  15 -45 108 113 196 237  45  77
-" blue      #268bd2  4/4 blue      33 #0087ff 55 -10 -45  38 139 210 205  82  82
-" cyan      #2aa198  6/6 cyan      37 #00afaf 60 -35 -05  42 161 152 175  74  63
-" green     #859900  2/2 green     64 #5f8700 60 -20  65 133 153   0  68 100  60
-"
-" ---------------------------------------------------------------------
-" COLORSCHEME HACKING
-" ---------------------------------------------------------------------
-"
-" Useful commands for testing colorschemes:
-" :source $VIMRUNTIME/syntax/hitest.vim
-" :help highlight-groups
-" :help cterm-colors
-" :help group-name
-"
-" Useful links for developing colorschemes:
-" http://www.vim.org/scripts/script.php?script_id=2937
-" http://vimcasts.org/episodes/creating-colorschemes-for-vim/
-" http://www.frexx.de/xterm-256-notes/"
-"
-" }}}
-" Environment Specific Overrides "{{{
-" Allow or disallow certain features based on current terminal emulator or
-" environment.
 
 " ---------------------------------------------------------------------
 " ABOUT reverse
@@ -131,11 +91,11 @@ let g:terminal_ansi_colors = [
             \ '#073642',
             \ '#cb4b16',
             \ '#586e75',
-            \ '#657b83',
-            \ '#93a1a1',
+            \ '#bf7600',
+            \ '#3e64fb',
             \ '#6c71c4',
-            \ '#eee8d5',
-            \ '#fdf6e3',
+            \ '#00991f',
+            \ '#a39383',
             \ ]
 
 " ---------------------------------------------------------------------
@@ -153,14 +113,13 @@ let s:pallete = {
       \ 'orange'  :  [ g:terminal_ansi_colors[9]  , 9       , 'LightRed'     ]  ,
       \ 'base01'  :  [ g:terminal_ansi_colors[10] , 10      , 'LightGreen'   ]  ,
       \ 'base00'  :  [ g:terminal_ansi_colors[11] , 11      , 'LightYellow'  ]  ,
-      \ 'base1'   :  [ g:terminal_ansi_colors[12] , 12      , 'LightGreen'   ]  ,
+      \ 'base1'   :  [ g:terminal_ansi_colors[12] , 12      , 'LightBlue'   ]  ,
       \ 'violet'  :  [ g:terminal_ansi_colors[13] , 13      , 'LightMagenta' ]  ,
       \ 'base2'   :  [ g:terminal_ansi_colors[14] , 14      , 'LightCyan'    ]  ,
       \ 'base3'   :  [ g:terminal_ansi_colors[15] , 15      , 'White'        ]  ,
       \}
 
-
-let s:amode = has('gui_running') ? 'gui' : &t_Co >= 16 ? 'cterm' : 'term'
+let s:amode = has('gui_running') ? 'gui' : &t_Co > 0 ? 'cterm' : 'term'
 let s:idx = has('gui_running') || &termguicolors ? 0 : &t_Co >= 16 ? 1 : 2
 
 let s:vmode   = s:pallete.mode[s:idx]
@@ -199,26 +158,7 @@ else
     let s:back        = 'NONE'
 endif
 "}}}
-" Alternate light scheme "{{{
-" ---------------------------------------------------------------------
-if &background ==# 'light'
-    let s:temp03      = s:base03
-    let s:temp02      = s:base02
-    let s:temp01      = s:base01
-    let s:temp00      = s:base00
-    let s:base03      = s:base3
-    let s:base02      = s:base2
-    let s:base01      = s:base1
-    let s:base00      = s:base0
-    let s:base0       = s:temp00
-    let s:base1       = s:temp01
-    let s:base2       = s:temp02
-    let s:base3       = s:temp03
-    if (s:back !=# 'NONE')
-        let s:back    = s:base03
-    endif
-endif
-"}}}
+
 " Overrides dependent on user specified values and environment "{{{
 " ---------------------------------------------------------------------
 let s:b = g:solarized_bold ? ',bold' : ''
@@ -247,6 +187,7 @@ let s:bg_magenta   = ' ' . s:vmode . 'bg=' . s:magenta
 let s:bg_violet    = ' ' . s:vmode . 'bg=' . s:violet
 let s:bg_blue      = ' ' . s:vmode . 'bg=' . s:blue
 let s:bg_cyan      = ' ' . s:vmode . 'bg=' . s:cyan
+let s:bg_gold      = s:bg_base00
 let s:bg           = ' ' . s:vmode . 'bg=bg'
 let s:bg_fg        = ' ' . s:vmode . 'bg=fg'
 
@@ -268,6 +209,7 @@ let s:fg_magenta   = ' ' . s:vmode . 'fg=' . s:magenta
 let s:fg_violet    = ' ' . s:vmode . 'fg=' . s:violet
 let s:fg_blue      = ' ' . s:vmode . 'fg=' . s:blue
 let s:fg_cyan      = ' ' . s:vmode . 'fg=' . s:cyan
+let s:fg_gold      = s:fg_base00
 let s:fg           = ' ' . s:vmode . 'fg=fg'
 let s:fg_bg        = ' ' . s:vmode . 'fg=bg'
 
@@ -325,7 +267,7 @@ endif
 " note that link syntax to avoid duplicate configuration doesn't work with the
 " exe compiled formats
 
-exe 'hi! Normal'         s:fmt_none     s:fg_base0    s:bg_back
+exe 'hi Normal'         s:fmt_none     s:fg_base0    s:bg_back
 
 exe 'hi SolarizedRedSign'       s:fmt_none  s:bg_none   s:fg_red
 exe 'hi SolarizedYellowSign'    s:fmt_none  s:bg_none   s:fg_yellow
@@ -336,10 +278,10 @@ exe 'hi SolarizedVioletSign'    s:fmt_none  s:bg_none   s:fg_violet
 exe 'hi SolarizedBlueSign'      s:fmt_none  s:bg_none   s:fg_blue
 exe 'hi SolarizedCyanSign'      s:fmt_none  s:bg_none   s:fg_cyan
 
-exe 'hi! Comment'        s:fmt_none     s:fg_base01   s:bg_none
+exe 'hi Comment'        s:fmt_none     s:fg_base01   s:bg_none
 "       *Comment         any comment
 
-exe 'hi! Constant'       s:fmt_none     s:fg_cyan     s:bg_none
+exe 'hi Constant'       s:fmt_none     s:fg_cyan     s:bg_none
 "       *Constant        any constant
 "        String          a string constant: "this is a string"
 "        Character       a character constant: 'c', '\n'
@@ -351,7 +293,7 @@ exe 'hi Identifier'       s:fmt_none     s:fg_blue     s:bg_none
 "       *Identifier      any variable name
 "        Function        function name (also: methods for classes)
 "
-exe 'hi! Statement'      s:fmt_none     s:fg_green    s:bg_none
+exe 'hi Statement'      s:fmt_none     s:fg_green    s:bg_none
 "       *Statement       any statement
 "        Conditional     if, then, else, endif, switch, etc.
 "        Repeat          for, do, while, etc.
@@ -360,20 +302,20 @@ exe 'hi! Statement'      s:fmt_none     s:fg_green    s:bg_none
 "        Keyword         any other keyword
 "        Exception       try, catch, throw
 
-exe 'hi! PreProc'        s:fmt_none     s:fg_orange   s:bg_none
+exe 'hi PreProc'        s:fmt_none     s:fg_orange   s:bg_none
 "       *PreProc         generic Preprocessor
 "        Include         preprocessor #include
 "        Define          preprocessor #define
 "        Macro           same as Define
 "        PreCondit       preprocessor #if, #else, #endif, etc.
 
-exe 'hi! Type'           s:fmt_none     s:fg_yellow   s:bg_none
+exe 'hi Type'           s:fmt_none     s:fg_yellow   s:bg_none
 "       *Type            int, long, char, etc.
 "        StorageClass    static, register, volatile, etc.
 "        Structure       struct, union, enum, etc.
 "        Typedef         A typedef
 
-exe 'hi! Special'        s:fmt_none     s:fg_red      s:bg_none
+exe 'hi Special'        s:fmt_none     s:fg_red      s:bg_none
 "       *Special         any special symbol
 "        SpecialChar     special character in a constant
 "        Tag             you can use CTRL-] on this
@@ -381,80 +323,80 @@ exe 'hi! Special'        s:fmt_none     s:fg_red      s:bg_none
 "        SpecialComment  special things inside a comment
 "        Debug           debugging statements
 
-exe 'hi! Underlined'     s:fmt_none     s:fg_violet   s:bg_none
+exe 'hi Underlined'     s:fmt_none     s:fg_violet   s:bg_none
 "       *Underlined      text that stands out, HTML links
 
-exe 'hi! Ignore'         s:fmt_none     s:fg_none     s:bg_none
+exe 'hi Ignore'         s:fmt_none     s:fg_none     s:bg_none
 "       *Ignore          left blank, hidden  |hl-Ignore|
 
-exe 'hi! Error'          s:fmt_bold     s:fg_orange      s:bg_none
+exe 'hi Error'          s:fmt_bold     s:fg_orange      s:bg_none
 "       *Error           any erroneous construct
 
-exe 'hi! Todo'           s:fmt_bold     s:fg_violet   s:bg_none
+exe 'hi Todo'           s:fmt_bold     s:fg_violet   s:bg_none
 "       *Todo            anything that needs extra attention; mostly the
 "                        keywords TODO FIXME and XXX
 "
 "}}}
 " Extended highlighting "{{{
 " ---------------------------------------------------------------------
-exe 'hi! SpecialKey'      s:fmt_bold     s:fg_base00   s:bg_base02
-exe 'hi! NonText'         s:fmt_bold     s:fg_base00   s:bg_none
-exe 'hi! StatusLine'      s:fmt_none     s:bg_base00   s:fg_base03
-exe 'hi! StatusLineNC'    s:fmt_none     s:bg_base02   s:fg_base00
+exe 'hi SpecialKey'      s:fmt_bold     s:fg_base01   s:bg_base02
+exe 'hi NonText'         s:fmt_bold     s:fg_base01   s:bg_none
+exe 'hi StatusLine'      s:fmt_none     s:bg_base0    s:fg_base03
+exe 'hi StatusLineNC'    s:fmt_none     s:bg_base01   s:fg_base03
 hi! link StatusLineTerm   StatusLine
 hi! link StatusLineTermNC StatusLineNC
 
-exe 'hi! Visual'          s:fmt_none     s:bg_base01   s:fg_base02   s:fmt_bold
-exe 'hi! Directory'       s:fmt_none     s:fg_blue     s:bg_none
-exe 'hi! ErrorMsg'        s:fmt_none     s:bg_red      s:fg_base2
-exe 'hi! IncSearch'       s:fmt_none     s:bg_orange   s:fg_base03
-exe 'hi! Search'          s:fmt_none     s:bg_yellow   s:fg_base03
-exe 'hi! MoreMsg'         s:fmt_none     s:fg_blue     s:bg_none
-exe 'hi! ModeMsg'         s:fmt_none     s:fg_blue     s:bg_none
-exe 'hi! LineNr'          s:fmt_none     s:fg_base01   s:bg_base02
-exe 'hi! Question'        s:fmt_bold     s:fg_base1     s:bg_none
-exe 'hi! VertSplit'       s:fmt_none     s:fg_base00   s:bg_base00
-exe 'hi! Title'           s:fmt_bold     s:fg_orange   s:bg_none
-exe 'hi! VisualNOS'       s:fmt_none     s:bg_base02   s:fg_base02
-exe 'hi! WarningMsg'      s:fmt_bold     s:fg_orange   s:bg_none
-exe 'hi! WildMenu'        s:fmt_none     s:bg_base1    s:fg_base02   s:fmt_bold
-exe 'hi! Folded'          s:fmt_undr     s:fg_base1    s:bg_base02   s:sp_base03
-exe 'hi! FoldColumn'      s:fmt_none     s:fg_base0    s:bg_base02
+exe 'hi Visual'          s:fmt_none     s:bg_base01   s:fg_base02   s:fmt_bold
+exe 'hi Directory'       s:fmt_none     s:fg_blue     s:bg_none
+exe 'hi ErrorMsg'        s:fmt_none     s:bg_red      s:fg_base03
+exe 'hi IncSearch'       s:fmt_none     s:bg_orange   s:fg_base03
+exe 'hi Search'          s:fmt_none     s:bg_yellow   s:fg_base03
+exe 'hi MoreMsg'         s:fmt_none     s:fg_blue     s:bg_none
+exe 'hi ModeMsg'         s:fmt_none     s:fg_blue     s:bg_none
+exe 'hi LineNr'          s:fmt_none     s:fg_base01   s:bg_base02
+exe 'hi Question'        s:fmt_bold     s:fg_violet   s:bg_none
+exe 'hi VertSplit'       s:fmt_none     s:fg_base01   s:bg_base01
+exe 'hi Title'           s:fmt_bold     s:fg_orange   s:bg_none
+exe 'hi VisualNOS'       s:fmt_none     s:bg_base02   s:fg_base02
+exe 'hi WarningMsg'      s:fmt_bold     s:fg_orange   s:bg_none
+exe 'hi WildMenu'        s:fmt_none     s:bg_orange   s:fg_base02
+exe 'hi Folded'          s:fmt_undr     s:fg_base0    s:bg_base02   s:sp_base03
+exe 'hi FoldColumn'      s:fmt_none     s:fg_base0    s:bg_base02
 
-exe 'hi! DiffAdd'         s:fmt_none     s:bg_green    s:fg_base03
-exe 'hi! DiffChange'      s:fmt_none     s:bg_yellow   s:fg_base03
-exe 'hi! DiffDelete'      s:fmt_none     s:bg_red      s:fg_base03
-exe 'hi! DiffText'        s:fmt_none     s:bg_blue     s:fg_base03
+exe 'hi DiffAdd'         s:fmt_none     s:bg_green    s:fg_base03
+exe 'hi DiffChange'      s:fmt_none     s:bg_yellow   s:fg_base03
+exe 'hi DiffDelete'      s:fmt_none     s:bg_red      s:fg_base03
+exe 'hi DiffText'        s:fmt_none     s:bg_blue     s:fg_base03
 
-exe 'hi! SignColumn'      s:fmt_none     s:fg_base0
-exe 'hi! Conceal'         s:fmt_none     s:fg_blue     s:bg
-exe 'hi! SpellBad'        s:fmt_undr     s:fg          s:bg_none  s:sp_red
-exe 'hi! SpellCap'        s:fmt_undr     s:fg          s:bg_none  s:sp_violet
-exe 'hi! SpellRare'       s:fmt_undr     s:fg          s:bg_none  s:sp_cyan
-exe 'hi! SpellLocal'      s:fmt_undr     s:fg          s:bg_none  s:sp_yellow
+exe 'hi SignColumn'      s:fmt_none     s:fg_base0
+exe 'hi Conceal'         s:fmt_none     s:fg_blue     s:bg
+exe 'hi SpellBad'        s:fmt_undr     s:fg          s:bg_none  s:sp_red
+exe 'hi SpellCap'        s:fmt_undr     s:fg          s:bg_none  s:sp_violet
+exe 'hi SpellRare'       s:fmt_undr     s:fg          s:bg_none  s:sp_cyan
+exe 'hi SpellLocal'      s:fmt_undr     s:fg          s:bg_none  s:sp_yellow
 
-exe 'hi! Pmenu'           s:fmt_none     s:bg_base02   s:fg_base0
-exe 'hi! PmenuSel'        s:fmt_none     s:bg_base01   s:fg_base02    s:fmt_bold
-exe 'hi! PmenuSbar'       s:fmt_none     s:bg_base02   s:fg_base02
-exe 'hi! PmenuThumb'      s:fmt_none     s:bg_base0    s:fg_base02
+exe 'hi Pmenu'           s:fmt_none     s:bg_base02   s:fg_base0
+exe 'hi PmenuSel'        s:fmt_none     s:bg_base0    s:fg_base03
+exe 'hi PmenuSbar'       s:fmt_none     s:bg_base02   s:fg_base02
+exe 'hi PmenuThumb'      s:fmt_none     s:bg_base0    s:fg_base02
 
-exe 'hi! TabLine'         s:fmt_none     s:fg_base0    s:bg_base02    s:sp_base0
-exe 'hi! TabLineFill'     s:fmt_none     s:fg_base0    s:bg_base02    s:sp_base0
-exe 'hi! TabLineSel'      s:fmt_none     s:fg_base03   s:bg_base0     s:sp_base0
+exe 'hi TabLine'         s:fmt_none     s:fg_base0    s:bg_base02    s:sp_base0
+exe 'hi TabLineFill'     s:fmt_none     s:fg_base0    s:bg_base02    s:sp_base0
+exe 'hi TabLineSel'      s:fmt_none     s:fg_yellow   s:bg_base03    s:sp_base0
 
-exe 'hi! CursorColumn'    s:fmt_none     s:fg_none     s:bg_base02
-exe 'hi! CursorLine'      s:fmt_uopt     s:fg_none     s:bg_base02    s:sp_base1
-exe 'hi! CursorLineNr'    s:fmt_uopt     s:fg_none     s:bg_base02    s:sp_base1
-exe 'hi! ColorColumn'     s:fmt_none     s:fg_none     s:bg_base02
-exe 'hi! Cursor'          s:fmt_none     s:fg_base03   s:bg_base0
+exe 'hi CursorColumn'    s:fmt_none     s:fg_none     s:bg_base02
+exe 'hi CursorLine'      s:fmt_uopt     s:fg_none     s:bg_base02    s:sp_base1
+exe 'hi CursorLineNr'    s:fmt_uopt     s:fg_none     s:bg_base02    s:sp_base1
+exe 'hi ColorColumn'     s:fmt_none     s:fg_none     s:bg_base02
+exe 'hi Cursor'          s:fmt_none     s:fg_base03   s:bg_base0
 hi! link lCursor Cursor
-exe 'hi! MatchParen'      s:fmt_bold     s:fg_orange   s:bg_base01
+exe 'hi MatchParen'      s:fmt_bold     s:fg_base02   s:bg_orange
 
 "}}}
 
 " Termdebug "{{{
 hi link debugBreakpoint SolarizedMagentaSign
-exe 'hi! debugPC' s:fmt_none s:fg_base03 s:bg_base0
+exe 'hi debugPC' s:fmt_none s:fg_base03 s:bg_base0
 
 "}}}
 " Utility autocommand "{{{
