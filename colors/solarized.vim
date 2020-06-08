@@ -1,4 +1,4 @@
-" Adapted from http://ethanschoonover.com/solarized by dedowsdi@outllook.com
+" Adapted from http://ethanschoonover.com/solarized by dedowsdi@outllook.comAø
 "
 " Usage "{{{
 " ---------------------------------------------------------------------
@@ -9,49 +9,9 @@
 " L\*a\*b values are canonical (White D65, Reference D50), other values are
 " matched in sRGB space.
 "
-"
 " lightness:
 " base03 < base02 < base01 < base00 < base0 < base1 < base2 < base3
 " base03 is background for dark, base0 is foreground for dark
-"
-" SOLARIZED HEX     16/8 TERMCOL  XTERM/HEX   L*A*B      sRGB        HSB
-" --------- ------- ---- -------  ----------- ---------- ----------- -----------
-" base03    #002b36  8/4 brblack  234 #1c1c1c 15 -12 -12   0  43  54 193 100  21
-" base02    #073642  0/4 black    235 #262626 20 -12 -12   7  54  66 192  90  26
-" base01    #586e75 10/7 brgreen  240 #4e4e4e 45 -07 -07  88 110 117 194  25  46
-" base00    #657b83 11/7 bryellow 241 #585858 50 -07 -07 101 123 131 195  23  51
-" base0     #839496 12/6 brblue   244 #808080 60 -06 -03 131 148 150 186  13  59
-" base1     #93a1a1 14/4 brcyan   245 #8a8a8a 65 -05 -02 147 161 161 180   9  63
-" base2     #eee8d5  7/7 white    254 #d7d7af 92 -00  10 238 232 213  44  11  93
-" base3     #fdf6e3 15/7 brwhite  230 #ffffd7 97  00  10 253 246 227  44  10  99
-" yellow    #b58900  3/3 yellow   136 #af8700 60  10  65 181 137   0  45 100  71
-" orange    #cb4b16  9/3 brred    166 #d75f00 50  50  55 203  75  22  18  89  80
-" red       #dc322f  1/1 red      160 #d70000 50  65  45 220  50  47   1  79  86
-" magenta   #d33682  5/5 magenta  125 #af005f 50  65 -05 211  54 130 331  74  83
-" violet    #6c71c4 13/5 brmagenta 61 #5f5faf 50  15 -45 108 113 196 237  45  77
-" blue      #268bd2  4/4 blue      33 #0087ff 55 -10 -45  38 139 210 205  82  82
-" cyan      #2aa198  6/6 cyan      37 #00afaf 60 -35 -05  42 161 152 175  74  63
-" green     #859900  2/2 green     64 #5f8700 60 -20  65 133 153   0  68 100  60
-"
-" ---------------------------------------------------------------------
-" COLORSCHEME HACKING
-" ---------------------------------------------------------------------
-"
-" Useful commands for testing colorschemes:
-" :source $VIMRUNTIME/syntax/hitest.vim
-" :help highlight-groups
-" :help cterm-colors
-" :help group-name
-"
-" Useful links for developing colorschemes:
-" http://www.vim.org/scripts/script.php?script_id=2937
-" http://vimcasts.org/episodes/creating-colorschemes-for-vim/
-" http://www.frexx.de/xterm-256-notes/"
-"
-" }}}
-" Environment Specific Overrides "{{{
-" Allow or disallow certain features based on current terminal emulator or
-" environment.
 
 " ---------------------------------------------------------------------
 " ABOUT reverse
@@ -134,8 +94,8 @@ let g:terminal_ansi_colors = [
             \ '#657b83',
             \ '#93a1a1',
             \ '#6c71c4',
-            \ '#eee8d5',
-            \ '#fdf6e3',
+            \ '#00991f',
+            \ '#a39383',
             \ ]
 
 " ---------------------------------------------------------------------
@@ -153,10 +113,10 @@ let s:pallete = {
       \ 'orange'  :  [ g:terminal_ansi_colors[9]  , 9       , 'LightRed'     ]  ,
       \ 'base01'  :  [ g:terminal_ansi_colors[10] , 10      , 'LightGreen'   ]  ,
       \ 'base00'  :  [ g:terminal_ansi_colors[11] , 11      , 'LightYellow'  ]  ,
-      \ 'base1'   :  [ g:terminal_ansi_colors[12] , 12      , 'LightGreen'   ]  ,
+      \ 'base1'   :  [ g:terminal_ansi_colors[12] , 12      , 'LightBlue'   ]  ,
       \ 'violet'  :  [ g:terminal_ansi_colors[13] , 13      , 'LightMagenta' ]  ,
-      \ 'base2'   :  [ g:terminal_ansi_colors[14] , 14      , 'LightCyan'    ]  ,
-      \ 'base3'   :  [ g:terminal_ansi_colors[15] , 15      , 'White'        ]  ,
+      \ 'lcyan'   :  [ g:terminal_ansi_colors[14] , 14      , 'LightCyan'    ]  ,
+      \ 'base2'   :  [ g:terminal_ansi_colors[15] , 15      , 'White'        ]  ,
       \}
 
 
@@ -171,7 +131,7 @@ let s:base00  = s:pallete.base00[s:idx]
 let s:base0   = s:pallete.base0[s:idx]
 let s:base1   = s:pallete.base1[s:idx]
 let s:base2   = s:pallete.base2[s:idx]
-let s:base3   = s:pallete.base3[s:idx]
+" let s:base3   = s:pallete.base3[s:idx]
 let s:yellow  = s:pallete.yellow[s:idx]
 let s:orange  = s:pallete.orange[s:idx]
 let s:red     = s:pallete.red[s:idx]
@@ -199,26 +159,7 @@ else
     let s:back        = 'NONE'
 endif
 "}}}
-" Alternate light scheme "{{{
-" ---------------------------------------------------------------------
-if &background ==# 'light'
-    let s:temp03      = s:base03
-    let s:temp02      = s:base02
-    let s:temp01      = s:base01
-    let s:temp00      = s:base00
-    let s:base03      = s:base3
-    let s:base02      = s:base2
-    let s:base01      = s:base1
-    let s:base00      = s:base0
-    let s:base0       = s:temp00
-    let s:base1       = s:temp01
-    let s:base2       = s:temp02
-    let s:base3       = s:temp03
-    if (s:back !=# 'NONE')
-        let s:back    = s:base03
-    endif
-endif
-"}}}
+
 " Overrides dependent on user specified values and environment "{{{
 " ---------------------------------------------------------------------
 let s:b = g:solarized_bold ? ',bold' : ''
@@ -238,7 +179,7 @@ let s:bg_base00    = ' ' . s:vmode . 'bg=' . s:base00
 let s:bg_base0     = ' ' . s:vmode . 'bg=' . s:base0
 let s:bg_base1     = ' ' . s:vmode . 'bg=' . s:base1
 let s:bg_base2     = ' ' . s:vmode . 'bg=' . s:base2
-let s:bg_base3     = ' ' . s:vmode . 'bg=' . s:base3
+" let s:bg_base3     = ' ' . s:vmode . 'bg=' . s:base3
 let s:bg_green     = ' ' . s:vmode . 'bg=' . s:green
 let s:bg_yellow    = ' ' . s:vmode . 'bg=' . s:yellow
 let s:bg_orange    = ' ' . s:vmode . 'bg=' . s:orange
@@ -259,7 +200,7 @@ let s:fg_base00    = ' ' . s:vmode . 'fg=' . s:base00
 let s:fg_base0     = ' ' . s:vmode . 'fg=' . s:base0
 let s:fg_base1     = ' ' . s:vmode . 'fg=' . s:base1
 let s:fg_base2     = ' ' . s:vmode . 'fg=' . s:base2
-let s:fg_base3     = ' ' . s:vmode . 'fg=' . s:base3
+" let s:fg_base3     = ' ' . s:vmode . 'fg=' . s:base3
 let s:fg_green     = ' ' . s:vmode . 'fg=' . s:green
 let s:fg_yellow    = ' ' . s:vmode . 'fg=' . s:yellow
 let s:fg_orange    = ' ' . s:vmode . 'fg=' . s:orange
@@ -289,7 +230,7 @@ if has('gui_running')
     let s:sp_base0     = ' guisp=' . s:base0
     let s:sp_base1     = ' guisp=' . s:base1
     let s:sp_base2     = ' guisp=' . s:base2
-    let s:sp_base3     = ' guisp=' . s:base3
+    " let s:sp_base3     = ' guisp=' . s:base3
     let s:sp_green     = ' guisp=' . s:green
     let s:sp_yellow    = ' guisp=' . s:yellow
     let s:sp_orange    = ' guisp=' . s:orange
@@ -406,7 +347,7 @@ hi! link StatusLineTermNC StatusLineNC
 
 exe 'hi! Visual'          s:fmt_none     s:bg_base01   s:fg_base02   s:fmt_bold
 exe 'hi! Directory'       s:fmt_none     s:fg_blue     s:bg_none
-exe 'hi! ErrorMsg'        s:fmt_none     s:bg_red      s:fg_base2
+exe 'hi! ErrorMsg'        s:fmt_none     s:bg_red      s:fg_base03
 exe 'hi! IncSearch'       s:fmt_none     s:bg_orange   s:fg_base03
 exe 'hi! Search'          s:fmt_none     s:bg_yellow   s:fg_base03
 exe 'hi! MoreMsg'         s:fmt_none     s:fg_blue     s:bg_none
@@ -417,7 +358,7 @@ exe 'hi! VertSplit'       s:fmt_none     s:fg_base00   s:bg_base00
 exe 'hi! Title'           s:fmt_bold     s:fg_orange   s:bg_none
 exe 'hi! VisualNOS'       s:fmt_none     s:bg_base02   s:fg_base02
 exe 'hi! WarningMsg'      s:fmt_bold     s:fg_orange   s:bg_none
-exe 'hi! WildMenu'        s:fmt_none     s:bg_base1    s:fg_base02   s:fmt_bold
+exe 'hi! WildMenu'        s:fmt_none     s:bg_base1    s:fg_base02
 exe 'hi! Folded'          s:fmt_undr     s:fg_base1    s:bg_base02   s:sp_base03
 exe 'hi! FoldColumn'      s:fmt_none     s:fg_base0    s:bg_base02
 
