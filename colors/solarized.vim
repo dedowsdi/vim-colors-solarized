@@ -79,7 +79,7 @@ let colors_name = 'solarized'
 
 " look, I swapped 0 and 8, 7 and 12. I prefer to let Normal be the same as
 " terminal bg and fg.
-let g:terminal_ansi_colors = [
+let s:ansi_colors = [
             \ '#002b36',
             \ '#dc322f',
             \ '#859900',
@@ -98,25 +98,29 @@ let g:terminal_ansi_colors = [
             \ '#a39383',
             \ ]
 
+if has('gui_running' || &termguicolors)
+  let g:terminal_ansi_colors = s:ansi_colors
+endif
+
 " ---------------------------------------------------------------------
 let s:pallete = {
-      \ 'mode'    :  [ 'gui'                      , 'cterm' , 'cterm'        ]  ,
-      \ 'base03'  :  [ g:terminal_ansi_colors[0]  , 0       , 'DarkGray'     ]  ,
-      \ 'red'     :  [ g:terminal_ansi_colors[1]  , 1       , 'DarkRed'      ]  ,
-      \ 'green'   :  [ g:terminal_ansi_colors[2]  , 2       , 'DarkGreen'    ]  ,
-      \ 'yellow'  :  [ g:terminal_ansi_colors[3]  , 3       , 'DarkYellow'   ]  ,
-      \ 'blue'    :  [ g:terminal_ansi_colors[4]  , 4       , 'DarkBlue'     ]  ,
-      \ 'magenta' :  [ g:terminal_ansi_colors[5]  , 5       , 'DarkMagenta'  ]  ,
-      \ 'cyan'    :  [ g:terminal_ansi_colors[6]  , 6       , 'DarkCyan'     ]  ,
-      \ 'base0'   :  [ g:terminal_ansi_colors[7]  , 7       , 'LightGray'    ]  ,
-      \ 'base02'  :  [ g:terminal_ansi_colors[8]  , 8       , 'Black'        ]  ,
-      \ 'orange'  :  [ g:terminal_ansi_colors[9]  , 9       , 'LightRed'     ]  ,
-      \ 'base01'  :  [ g:terminal_ansi_colors[10] , 10      , 'LightGreen'   ]  ,
-      \ 'base00'  :  [ g:terminal_ansi_colors[11] , 11      , 'LightYellow'  ]  ,
-      \ 'base1'   :  [ g:terminal_ansi_colors[12] , 12      , 'LightBlue'   ]  ,
-      \ 'violet'  :  [ g:terminal_ansi_colors[13] , 13      , 'LightMagenta' ]  ,
-      \ 'base2'   :  [ g:terminal_ansi_colors[14] , 14      , 'LightCyan'    ]  ,
-      \ 'base3'   :  [ g:terminal_ansi_colors[15] , 15      , 'White'        ]  ,
+      \ 'mode'    :  [ 'gui'             , 'cterm' , 'cterm'        ]  ,
+      \ 'base03'  :  [ s:ansi_colors[0]  , 0       , 'DarkGray'     ]  ,
+      \ 'red'     :  [ s:ansi_colors[1]  , 1       , 'DarkRed'      ]  ,
+      \ 'green'   :  [ s:ansi_colors[2]  , 2       , 'DarkGreen'    ]  ,
+      \ 'yellow'  :  [ s:ansi_colors[3]  , 3       , 'DarkYellow'   ]  ,
+      \ 'blue'    :  [ s:ansi_colors[4]  , 4       , 'DarkBlue'     ]  ,
+      \ 'magenta' :  [ s:ansi_colors[5]  , 5       , 'DarkMagenta'  ]  ,
+      \ 'cyan'    :  [ s:ansi_colors[6]  , 6       , 'DarkCyan'     ]  ,
+      \ 'base0'   :  [ s:ansi_colors[7]  , 7       , 'LightGray'    ]  ,
+      \ 'base02'  :  [ s:ansi_colors[8]  , 8       , 'Black'        ]  ,
+      \ 'orange'  :  [ s:ansi_colors[9]  , 9       , 'LightRed'     ]  ,
+      \ 'base01'  :  [ s:ansi_colors[10] , 10      , 'LightGreen'   ]  ,
+      \ 'base00'  :  [ s:ansi_colors[11] , 11      , 'LightYellow'  ]  ,
+      \ 'base1'   :  [ s:ansi_colors[12] , 12      , 'LightBlue'    ]  ,
+      \ 'violet'  :  [ s:ansi_colors[13] , 13      , 'LightMagenta' ]  ,
+      \ 'base2'   :  [ s:ansi_colors[14] , 14      , 'LightCyan'    ]  ,
+      \ 'base3'   :  [ s:ansi_colors[15] , 15      , 'White'        ]  ,
       \}
 
 let s:amode = has('gui_running') ? 'gui' : &t_Co > 0 ? 'cterm' : 'term'
@@ -396,7 +400,7 @@ exe 'hi MatchParen'      s:fmt_bold     s:fg_base02   s:bg_orange
 
 " Termdebug "{{{
 hi link debugBreakpoint SolarizedMagentaSign
-exe 'hi debugPC' s:fmt_none s:fg_base03 s:bg_base0
+exe 'hi debugPC' s:fmt_none s:bg_base02 s:fg_none
 
 "}}}
 " Utility autocommand "{{{
