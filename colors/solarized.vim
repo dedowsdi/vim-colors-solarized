@@ -98,7 +98,7 @@ let s:ansi_colors = [
             \ '#a39383',
             \ ]
 
-if has('gui_running' || &termguicolors)
+if has('gui_running') || &termguicolors
   let g:terminal_ansi_colors = s:ansi_colors
 endif
 
