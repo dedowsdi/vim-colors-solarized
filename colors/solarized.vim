@@ -224,6 +224,7 @@ let s:fmt_undb     = ' ' . s:amode . '=NONE' . s:u.s:b.  ' term=NONE' . s:u.s:b
 let s:fmt_uopt     = ' ' . s:amode . '=NONE' . s:ou.     ' term=NONE' . s:ou
 let s:fmt_curl     = ' ' . s:amode . '=NONE' . s:c.      ' term=NONE' . s:c
 let s:fmt_ital     = ' ' . s:amode . '=NONE' . s:i.      ' term=NONE' . s:i
+let s:fmt_reve     = ' ' . s:amode . '=NONE' . s:r.      ' term=NONE' . s:r
 
 if has('gui_running')
     let s:sp_none      = ' guisp=' . s:none
@@ -393,6 +394,7 @@ exe 'hi CursorLine'      s:fmt_uopt     s:fg_none     s:bg_base02    s:sp_base1
 exe 'hi CursorLineNr'    s:fmt_uopt     s:fg_none     s:bg_base02    s:sp_base1
 exe 'hi ColorColumn'     s:fmt_none     s:fg_none     s:bg_base02
 exe 'hi Cursor'          s:fmt_none     s:fg_base03   s:bg_base0
+exe 'hi CursorReverse'   s:fmt_reve     s:fg_none     s:bg_none
 hi! link lCursor Cursor
 exe 'hi MatchParen'      s:fmt_bold     s:fg_base02   s:bg_orange
 
